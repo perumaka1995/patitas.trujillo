@@ -1,4 +1,4 @@
-const CACHE_NAME = "patitas-trujillo-v11-info-modal";
+const CACHE_NAME = "patitas-trujillo-v12-info-modal-fix";
 const APP_SHELL = [
   "/",
   "/index.html",

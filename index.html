@@ -3511,8 +3511,33 @@
         await setDoc(newPetRef, pet);
 
         form.reset();
-    
-    const infoContents = {
+form.fecha.value = new Date().toISOString().slice(0,10);
+        closeRegister();
+        showToast("Reporte guardado en Firebase ✅");
+        await loadPets();
+      }catch(error){
+        console.error(error);
+        showToast("No se pudo guardar. Revisa Firestore, Cloudinary y las reglas.");
+      }finally{
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Guardar reporte";
+      }
+    });
+
+    document.getElementById("resetForm").addEventListener("click", ()=>{
+      form.reset();
+      form.fecha.value = new Date().toISOString().slice(0,10);
+      showToast("Formulario vacío ✅");
+    });
+
+    form.fecha.value = new Date().toISOString().slice(0,10);
+    registerPageView();
+    loadPets();
+  </script>
+
+
+  <script>
+    window.PATITAS_INFO_CONTENTS = {
       reportar: {
         title: "Cómo reportar una mascota perdida",
         body: `
@@ -3555,8 +3580,10 @@
         body: `
           <h4>¿La página rescata animales directamente?</h4>
           <p>No. La página ayuda a difundir reportes y conectar personas, pero no reemplaza a una organización de rescate.</p>
+
           <h4>¿Tiene costo publicar?</h4>
           <p>No. El registro está pensado como ayuda comunitaria.</p>
+
           <h4>¿Puedo pedir que borren una publicación?</h4>
           <p>Sí. Puedes solicitar la eliminación o corrección escribiendo al contacto del administrador.</p>
         `
@@ -3572,7 +3599,7 @@
       privacidad: {
         title: "Política de privacidad",
         body: `
-          <p>En Patitas Trujillo se recopila únicamente la información necesaria para publicar y consultar reportes de mascotas perdidas, vistas, encontradas o en adopción.</p>
+          <p>En <b>Patitas Trujillo</b> se recopila únicamente la información necesaria para publicar y consultar reportes de mascotas perdidas, vistas, encontradas o en adopción.</p>
           <ul>
             <li><b>Datos publicados:</b> nombre de la mascota, especie, color o raza, sexo, edad aproximada, zona, distrito, fecha, descripción, foto y teléfono de contacto.</li>
             <li><b>Comentarios:</b> los visitantes pueden dejar nombre, lugar, fecha y comentario de avistamiento.</li>
@@ -3609,51 +3636,53 @@
       }
     };
 
-    function openInfoModal(key){
-      const data = infoContents[key];
-      if(!data) return;
-      document.getElementById("infoModalTitle").textContent = data.title;
-      document.getElementById("infoModalBody").innerHTML = data.body;
-      document.getElementById("infoModal").classList.add("show");
+    function patitasOpenInfoModal(key){
+      const data = window.PATITAS_INFO_CONTENTS[key];
+      const modal = document.getElementById("infoModal");
+      const title = document.getElementById("infoModalTitle");
+      const body = document.getElementById("infoModalBody");
+
+      if(!data || !modal || !title || !body) return;
+
+      title.textContent = data.title;
+      body.innerHTML = data.body;
+      modal.classList.add("show");
+      document.body.style.overflow = "hidden";
     }
 
-    function closeInfoModal(){
-      document.getElementById("infoModal").classList.remove("show");
+    function patitasCloseInfoModal(){
+      const modal = document.getElementById("infoModal");
+      if(!modal) return;
+      modal.classList.remove("show");
+      document.body.style.overflow = "";
     }
 
-    document.querySelectorAll("[data-info]").forEach(button => {
-      button.addEventListener("click", () => openInfoModal(button.dataset.info));
-    });
+    document.addEventListener("click", function(event){
+      const infoButton = event.target.closest("[data-info]");
+      if(infoButton){
+        event.preventDefault();
+        patitasOpenInfoModal(infoButton.dataset.info);
+        return;
+      }
 
-    document.getElementById("closeInfoModal").addEventListener("click", closeInfoModal);
-    document.getElementById("infoModal").addEventListener("click", (event) => {
-      if(event.target.id === "infoModal") closeInfoModal();
-    });
+      if(event.target && event.target.id === "closeInfoModal"){
+        event.preventDefault();
+        patitasCloseInfoModal();
+        return;
+      }
 
-
-    form.fecha.value = new Date().toISOString().slice(0,10);
-        closeRegister();
-        showToast("Reporte guardado en Firebase ✅");
-        await loadPets();
-      }catch(error){
-        console.error(error);
-        showToast("No se pudo guardar. Revisa Firestore, Cloudinary y las reglas.");
-      }finally{
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Guardar reporte";
+      if(event.target && event.target.id === "infoModal"){
+        patitasCloseInfoModal();
       }
     });
 
-    document.getElementById("resetForm").addEventListener("click", ()=>{
-      form.reset();
-      form.fecha.value = new Date().toISOString().slice(0,10);
-      showToast("Formulario vacío ✅");
+    document.addEventListener("keydown", function(event){
+      if(event.key === "Escape"){
+        patitasCloseInfoModal();
+      }
     });
-
-    form.fecha.value = new Date().toISOString().slice(0,10);
-    registerPageView();
-    loadPets();
   </script>
+
 
   <script>
     if ("serviceWorker" in navigator) {
