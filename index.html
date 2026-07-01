@@ -1935,6 +1935,55 @@
       }
     }
 
+  
+    /* FIX: mostrar fotos completas sin recortar */
+    .card-media{
+      background:#f8fafc !important;
+    }
+
+    .card-media img{
+      object-fit:contain !important;
+      background:#f8fafc !important;
+    }
+
+    .detail-photo{
+      aspect-ratio:auto !important;
+      min-height:280px !important;
+      max-height:72vh !important;
+      background:#f8fafc !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+    }
+
+    .detail-photo img{
+      width:100% !important;
+      height:auto !important;
+      max-height:72vh !important;
+      object-fit:contain !important;
+      background:#f8fafc !important;
+      display:block !important;
+    }
+
+    @media(max-width:720px){
+      .card-media{
+        height:210px !important;
+      }
+
+      .card-media img{
+        object-fit:contain !important;
+      }
+
+      .detail-photo{
+        min-height:260px !important;
+        max-height:68vh !important;
+      }
+
+      .detail-photo img{
+        max-height:68vh !important;
+      }
+    }
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />
@@ -1949,7 +1998,7 @@
       <div class="nav">
         <a href="#" class="brand">
           <span class="brand-icon">🐾</span>
-          <span>PATITAS TRUJILLO
+          <span>patitas.trujillo
             <small>Red comunitaria para mascotas perdidas y encontradas</small>
           </span>
         </a>

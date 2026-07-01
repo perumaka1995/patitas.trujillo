@@ -1,7 +1,10 @@
-# patitas.trujillo - versión con AdSense
+# patitas.trujillo - foto completa
 
-Esta versión incluye el código de verificación de Google AdSense dentro de <head>.
+Cambio realizado:
+- Las fotos ya no se recortan.
+- En tarjetas y ficha de mascota se usa object-fit: contain.
+- Ideal para flyers de mascotas perdidas, capturas o imágenes con texto.
 
 Sube todos los archivos a GitHub y haz Commit changes.
-Luego espera que Vercel despliegue y vuelve a AdSense para marcar:
-"He colocado mi código" → Verificar → Solicitar revisión.
+Después abre la web con ?v=6 para evitar caché:
+https://patitastrujillo.vercel.app/?v=6
