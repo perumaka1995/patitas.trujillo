@@ -1,10 +1,10 @@
-# patitas.trujillo - foto completa
+# patitas.trujillo - foto completa con click
 
-Cambio realizado:
-- Las fotos ya no se recortan.
-- En tarjetas y ficha de mascota se usa object-fit: contain.
-- Ideal para flyers de mascotas perdidas, capturas o imágenes con texto.
+Cambios:
+- La tarjeta muestra mejor los flyers verticales.
+- En la ficha, al hacer click en la foto, se abre un visor de foto completa.
+- La foto se muestra sin recorte con fondo oscuro.
+- Se actualizó el caché del service worker.
 
-Sube todos los archivos a GitHub y haz Commit changes.
-Después abre la web con ?v=6 para evitar caché:
-https://patitastrujillo.vercel.app/?v=6
+Después de subir a GitHub, abre:
+https://patitastrujillo.vercel.app/?v=7

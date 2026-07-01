@@ -1984,6 +1984,111 @@
       }
     }
 
+  
+    /* FIX V2: flyers/fotos verticales completos y visor al hacer click */
+    .card-media{
+      height:auto !important;
+      min-height:260px !important;
+      aspect-ratio:4/5 !important;
+      background:#f8fafc !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+    }
+
+    .card-media img{
+      width:100% !important;
+      height:100% !important;
+      object-fit:contain !important;
+      background:#f8fafc !important;
+      padding:0 !important;
+    }
+
+    .detail-photo{
+      cursor:zoom-in !important;
+      background:#f8fafc !important;
+    }
+
+    .detail-photo::after{
+      content:"Click para ver foto completa";
+      position:absolute;
+      left:16px;
+      bottom:16px;
+      background:rgba(15,23,42,.82);
+      color:#fff;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      pointer-events:none;
+    }
+
+    .detail-photo{
+      position:relative !important;
+    }
+
+    .photo-viewer{
+      position:fixed;
+      inset:0;
+      z-index:200;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(15,23,42,.92);
+      padding:18px;
+    }
+
+    .photo-viewer.show{
+      display:flex;
+    }
+
+    .photo-viewer img{
+      max-width:96vw;
+      max-height:92vh;
+      object-fit:contain;
+      border-radius:18px;
+      background:#fff;
+      box-shadow:0 20px 70px rgba(0,0,0,.45);
+    }
+
+    .photo-viewer-close{
+      position:absolute;
+      top:18px;
+      right:18px;
+      width:46px;
+      height:46px;
+      border:0;
+      border-radius:16px;
+      background:#fff;
+      color:#172033;
+      font-size:26px;
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    @media(max-width:720px){
+      .card-media{
+        min-height:310px !important;
+        aspect-ratio:3/4 !important;
+      }
+
+      .detail-photo::after{
+        font-size:11px;
+        left:12px;
+        bottom:12px;
+      }
+
+      .photo-viewer{
+        padding:8px;
+      }
+
+      .photo-viewer img{
+        max-width:98vw;
+        max-height:92vh;
+        border-radius:12px;
+      }
+    }
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />
@@ -1998,7 +2103,7 @@
       <div class="nav">
         <a href="#" class="brand">
           <span class="brand-icon">🐾</span>
-          <span>PATITAS TRUJILLO
+          <span>patitas.trujillo
             <small>Red comunitaria para mascotas perdidas y encontradas</small>
           </span>
         </a>
@@ -2277,6 +2382,12 @@
     </div>
   </div>
 
+
+  <div class="photo-viewer" id="photoViewer">
+    <button class="photo-viewer-close" id="closePhotoViewer">×</button>
+    <img id="photoViewerImg" src="" alt="Foto completa de la mascota">
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script type="module">
@@ -2387,12 +2498,34 @@
     }
     function closeDetail(){ detailModal.classList.remove("show"); }
 
+
+    function openPhotoViewer(src){
+      const viewer = document.getElementById("photoViewer");
+      const img = document.getElementById("photoViewerImg");
+      if(!viewer || !img || !src) return;
+      img.src = src;
+      viewer.classList.add("show");
+    }
+
+    function closePhotoViewer(){
+      const viewer = document.getElementById("photoViewer");
+      const img = document.getElementById("photoViewerImg");
+      if(!viewer || !img) return;
+      viewer.classList.remove("show");
+      img.src = "";
+    }
+
+
     document.querySelectorAll("#openRegisterTop,#openRegisterTab,#openRegisterBottom,#openRegisterInfo,#openRegisterGroups")
       .forEach(btn => btn.addEventListener("click", openRegister));
 
     document.getElementById("closeRegister").addEventListener("click", closeRegister);
     document.getElementById("cancelRegister").addEventListener("click", closeRegister);
     document.getElementById("closeDetail").addEventListener("click", closeDetail);
+
+    document.getElementById("closePhotoViewer").addEventListener("click", closePhotoViewer);
+    document.getElementById("photoViewer").addEventListener("click", (e)=>{ if(e.target.id === "photoViewer") closePhotoViewer(); });
+
 
     registerModal.addEventListener("click", (e)=>{ if(e.target === registerModal) closeRegister(); });
     detailModal.addEventListener("click", (e)=>{ if(e.target === detailModal) closeDetail(); });
@@ -2566,7 +2699,7 @@
         <div class="detail-layout">
           <div class="detail-photo-wrap">
             <div class="detail-photo">
-              ${pet.fotoURL ? `<img src="${pet.fotoURL}" alt="Foto de ${pet.nombre}">` : `<div class="placeholder">${iconFor(pet.tipo)}</div>`}
+              ${pet.fotoURL ? `<img class="js-full-photo" data-full="${pet.fotoURL}" src="${pet.fotoURL}" alt="Foto de ${pet.nombre}">` : `<div class="placeholder">${iconFor(pet.tipo)}</div>`}
             </div>
             <div class="quick-tags">
               <span class="quick-tag">${pet.tipo}</span>
@@ -2659,6 +2792,14 @@
           </div>
         </div>
       `;
+
+
+      document.querySelectorAll(".js-full-photo").forEach(img => {
+        img.addEventListener("click", (event) => {
+          event.stopPropagation();
+          openPhotoViewer(img.dataset.full || img.src);
+        });
+      });
 
       const commentForm = document.getElementById("commentForm");
       commentForm.fecha.value = new Date().toISOString().slice(0,10);
