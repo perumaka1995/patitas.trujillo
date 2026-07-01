@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1448,7 +1449,7 @@
         </label>
       </form>
       <div class="modal-foot">
-        <button class="btn btn-ghost" id="resetReports">Limpiar reportes</button>
+        <button class="btn btn-ghost" id="resetForm">Vaciar formulario</button>
         <button class="btn btn-soft" id="cancelRegister">Cancelar</button>
         <button class="btn btn-primary" type="submit" form="petForm">Guardar patita</button>
       </div>
@@ -1467,10 +1468,41 @@
 
   <div class="toast" id="toast"></div>
 
-  <script>
-    const demoPets = [];
-    const storageKey = "patitasConAmorTiernaV1";
-    let pets = JSON.parse(localStorage.getItem(storageKey) || "null") || [];
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      addDoc,
+      getDocs,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    import {
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC5YVh19zB9iPVrV4k2U7Qpzwnn-vQ5Bug",
+      authDomain: "patitastrujillo.firebaseapp.com",
+      projectId: "patitastrujillo",
+      storageBucket: "patitastrujillo.firebasestorage.app",
+      messagingSenderId: "640548570868",
+      appId: "1:640548570868:web:be53a1d916323a32f3c0a1",
+      measurementId: "G-LMSW0YPHTC"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    let pets = [];
     let currentPetId = null;
     let activeFilters = { tipo:"Todos", sexo:"Todos", estado:"Todos" };
 
@@ -1484,8 +1516,6 @@
     const detailContent = document.getElementById("detailContent");
     const toast = document.getElementById("toast");
     const form = document.getElementById("petForm");
-
-    function save(){ localStorage.setItem(storageKey, JSON.stringify(pets)); }
 
     function statusClass(status){
       if(status === "Vista") return "vista";
@@ -1502,6 +1532,7 @@
 
     function formatDate(date){
       if(!date) return "Sin fecha";
+      if(date.includes("/")) return date;
       const [y,m,d] = date.split("-");
       return `${d}/${m}/${y}`;
     }
@@ -1518,6 +1549,10 @@
       return phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`;
     }
 
+    function safeFileName(name){
+      return String(name || "foto").replace(/[^\w.\-]+/g, "_");
+    }
+
     function openRegister(){ registerModal.classList.add("show"); }
     function closeRegister(){ registerModal.classList.remove("show"); }
     function openDetail(id){
@@ -1529,6 +1564,7 @@
 
     document.querySelectorAll("#openRegisterTop,#openRegisterTab,#openRegisterBottom,#openRegisterInfo,#openRegisterGroups")
       .forEach(btn => btn.addEventListener("click", openRegister));
+
     document.getElementById("closeRegister").addEventListener("click", closeRegister);
     document.getElementById("cancelRegister").addEventListener("click", closeRegister);
     document.getElementById("closeDetail").addEventListener("click", closeDetail);
@@ -1549,12 +1585,47 @@
     searchInput.addEventListener("input", render);
     districtFilter.addEventListener("change", render);
 
+    async function loadPets(){
+      cards.innerHTML = "";
+      emptyState.style.display = "block";
+      emptyState.innerHTML = "<h3>Cargando patitas 🐾</h3><p>Estamos buscando los reportes guardados en Firebase...</p>";
+
+      try{
+        const q = query(collection(db, "mascotas"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        const petPromises = snapshot.docs.map(async (petDoc) => {
+          const data = petDoc.data();
+          const commentsQ = query(collection(db, "mascotas", petDoc.id, "comentarios"), orderBy("createdAt", "desc"));
+          const commentsSnap = await getDocs(commentsQ);
+
+          return {
+            id: petDoc.id,
+            ...data,
+            comments: commentsSnap.docs.map(c => ({ id: c.id, ...c.data() }))
+          };
+        });
+
+        pets = await Promise.all(petPromises);
+        render();
+      }catch(error){
+        console.error(error);
+        cards.innerHTML = "";
+        emptyState.style.display = "block";
+        emptyState.innerHTML = `
+          <h3>No se pudo cargar Firebase ⚠️</h3>
+          <p>Revisa que Firestore esté creado, que Storage esté activado y que las reglas permitan leer y escribir.</p>
+        `;
+        showToast("Error al cargar Firebase. Revisa Firestore y reglas.");
+      }
+    }
+
     function render(){
       const q = searchInput.value.trim().toLowerCase();
       const district = districtFilter.value;
 
       const filtered = pets.filter(p => {
-        const text = `${p.nombre} ${p.tipo} ${p.sexo} ${p.estado} ${p.distrito} ${p.zona} ${p.descripcion} ${p.raza || ""}`.toLowerCase();
+        const text = `${p.nombre || ""} ${p.tipo || ""} ${p.sexo || ""} ${p.estado || ""} ${p.distrito || ""} ${p.zona || ""} ${p.descripcion || ""} ${p.raza || ""}`.toLowerCase();
         return (!q || text.includes(q))
           && (activeFilters.tipo === "Todos" || p.tipo === activeFilters.tipo)
           && (activeFilters.sexo === "Todos" || p.sexo === activeFilters.sexo)
@@ -1563,12 +1634,13 @@
       });
 
       cards.innerHTML = "";
+
       filtered.forEach(p=>{
         const article = document.createElement("article");
         article.className = "card";
         article.innerHTML = `
           <div class="card-media js-open-detail" data-id="${p.id}">
-            ${p.foto ? `<img src="${p.foto}" alt="Foto de ${p.nombre}">` : `<div class="placeholder">${iconFor(p.tipo)}</div>`}
+            ${p.fotoURL ? `<img src="${p.fotoURL}" alt="Foto de ${p.nombre}">` : `<div class="placeholder">${iconFor(p.tipo)}</div>`}
             <span class="status-pill ${statusClass(p.estado)}">${p.estado}</span>
           </div>
           <div class="card-body">
@@ -1598,6 +1670,13 @@
       });
 
       emptyState.style.display = filtered.length ? "none" : "block";
+      if(!filtered.length){
+        emptyState.innerHTML = `
+          <h3>Aún no hay patitas registradas 🐾</h3>
+          <p>La página está limpia y lista. Registra la primera patita para empezar a ayudar.</p>
+        `;
+      }
+
       counterText.textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"} encontrado${filtered.length === 1 ? "" : "s"} de ${pets.length} mascota${pets.length === 1 ? "" : "s"} registrada${pets.length === 1 ? "" : "s"}.`;
 
       document.getElementById("statRegistradas").textContent = pets.length;
@@ -1635,7 +1714,7 @@
         <div class="detail-layout">
           <div class="detail-photo-wrap">
             <div class="detail-photo">
-              ${pet.foto ? `<img src="${pet.foto}" alt="Foto de ${pet.nombre}">` : `<div class="placeholder">${iconFor(pet.tipo)}</div>`}
+              ${pet.fotoURL ? `<img src="${pet.fotoURL}" alt="Foto de ${pet.nombre}">` : `<div class="placeholder">${iconFor(pet.tipo)}</div>`}
             </div>
             <div class="quick-tags">
               <span class="quick-tag">${pet.tipo}</span>
@@ -1731,25 +1810,27 @@
 
       const commentForm = document.getElementById("commentForm");
       commentForm.fecha.value = new Date().toISOString().slice(0,10);
-      commentForm.addEventListener("submit", (e)=>{
+
+      commentForm.addEventListener("submit", async (e)=>{
         e.preventDefault();
         const fd = new FormData(commentForm);
         const entry = {
-          id: crypto.randomUUID(),
           autor: fd.get("autor").trim(),
           fecha: fd.get("fecha"),
           lugar: fd.get("lugar").trim(),
           texto: fd.get("texto").trim(),
           creado: new Date().toLocaleString("es-PE"),
+          createdAt: serverTimestamp()
         };
-        const idx = pets.findIndex(x => x.id === currentPetId);
-        if(idx > -1){
-          pets[idx].comments = pets[idx].comments || [];
-          pets[idx].comments.unshift(entry);
-          save();
-          render();
-          renderDetail();
+
+        try{
+          await addDoc(collection(db, "mascotas", currentPetId, "comentarios"), entry);
           showToast("Comentario publicado correctamente ✅");
+          await loadPets();
+          renderDetail();
+        }catch(error){
+          console.error(error);
+          showToast("No se pudo guardar el comentario. Revisa las reglas de Firestore.");
         }
       });
     }
@@ -1760,56 +1841,68 @@
       setTimeout(()=>toast.classList.remove("show"),2600);
     }
 
-    function readImage(file){
-      return new Promise(resolve => {
-        if(!file) return resolve("");
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => resolve("");
-        reader.readAsDataURL(file);
-      });
-    }
-
     form.addEventListener("submit", async (e)=>{
       e.preventDefault();
-      const data = new FormData(form);
-      const pet = {
-        id: crypto.randomUUID(),
-        nombre: data.get("nombre").trim(),
-        tipo: data.get("tipo"),
-        sexo: data.get("sexo"),
-        estado: data.get("estado"),
-        edad: data.get("edad").trim(),
-        raza: data.get("raza").trim(),
-        distrito: data.get("distrito"),
-        zona: data.get("zona").trim(),
-        fecha: data.get("fecha"),
-        telefono: data.get("telefono").trim(),
-        descripcion: data.get("descripcion").trim(),
-        foto: await readImage(data.get("foto")),
-        comments: [],
-      };
-      pets.unshift(pet);
-      save();
-      form.reset();
-      form.fecha.value = new Date().toISOString().slice(0,10);
-      closeRegister();
-      render();
-      showToast("Reporte guardado correctamente ✅");
-    });
 
-    document.getElementById("resetReports").addEventListener("click", ()=>{
-      if(confirm("¿Deseas borrar todos los reportes registrados en este navegador?")){
-        pets = [];
-        save();
-        render();
+      const submitBtn = document.querySelector('button[form="petForm"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Guardando...";
+
+      try{
+        const data = new FormData(form);
+        const newPetRef = doc(collection(db, "mascotas"));
+        const petId = newPetRef.id;
+
+        const file = data.get("foto");
+        let fotoURL = "";
+
+        if(file && file.size > 0){
+          const imageRef = ref(storage, `mascotas/${petId}/${Date.now()}_${safeFileName(file.name)}`);
+          await uploadBytes(imageRef, file);
+          fotoURL = await getDownloadURL(imageRef);
+        }
+
+        const pet = {
+          nombre: data.get("nombre").trim(),
+          tipo: data.get("tipo"),
+          sexo: data.get("sexo"),
+          estado: data.get("estado"),
+          edad: data.get("edad").trim(),
+          raza: data.get("raza").trim(),
+          distrito: data.get("distrito"),
+          zona: data.get("zona").trim(),
+          fecha: data.get("fecha"),
+          telefono: data.get("telefono").trim(),
+          descripcion: data.get("descripcion").trim(),
+          fotoURL,
+          createdAt: serverTimestamp()
+        };
+
+        await setDoc(newPetRef, pet);
+
+        form.reset();
+        form.fecha.value = new Date().toISOString().slice(0,10);
         closeRegister();
-        showToast("Reportes borrados. La página quedó limpia ✅");
+        showToast("Patita guardada en Firebase ✅");
+        await loadPets();
+      }catch(error){
+        console.error(error);
+        showToast("No se pudo guardar. Revisa Firestore, Storage y las reglas.");
+      }finally{
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Guardar patita";
       }
     });
 
+    document.getElementById("resetForm").addEventListener("click", ()=>{
+      form.reset();
+      form.fecha.value = new Date().toISOString().slice(0,10);
+      showToast("Formulario vacío ✅");
+    });
+
     form.fecha.value = new Date().toISOString().slice(0,10);
-    render();
+    loadPets();
   </script>
+
 </body>
 </html>
