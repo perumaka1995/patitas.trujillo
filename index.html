@@ -6,7 +6,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Patitas Trujillo</title>
+  <title>patitas.trujillo</title>
   <meta name="description" content="Plataforma comunitaria para reportar y encontrar mascotas en Trujillo." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2271,6 +2271,51 @@
       }
     }
 
+  
+    /* SUBIR / CAMBIAR FOTO EN FICHA */
+    .photo-update-box{
+      background:#f8fafc;
+      border:1px dashed #cdd9e8;
+      border-radius:18px;
+      padding:14px;
+      display:grid;
+      gap:10px;
+    }
+
+    .photo-update-box b{
+      color:#172033;
+      font-size:14px;
+    }
+
+    .photo-update-box small{
+      color:#64748b;
+      font-weight:700;
+      line-height:1.4;
+    }
+
+    .photo-update-actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+    }
+
+    .photo-update-actions input[type="file"]{
+      width:100%;
+      border:1px solid #d8e2ef;
+      background:#fff;
+      border-radius:13px;
+      padding:10px;
+      font:inherit;
+      font-size:13px;
+    }
+
+    @media(max-width:720px){
+      .photo-update-box{
+        padding:12px;
+        border-radius:15px;
+      }
+    }
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />
@@ -2285,7 +2330,7 @@
       <div class="nav">
         <a href="#" class="brand">
           <span class="brand-icon">🐾</span>
-          <span>PATITAS TRUJILLO
+          <span>patitas.trujillo
             <small>Red comunitaria para mascotas perdidas y encontradas</small>
           </span>
         </a>
@@ -2546,6 +2591,7 @@
         <div class="legal-note">
           Correo de contacto: <b>brian166666@gmail.com</b><br>
           Tiempo estimado de respuesta: 24 a 72 horas.<br>
+          Nota: cambia este correo por el correo real del administrador antes de solicitar revisión final en AdSense.
         </div>
       </article>
 
@@ -2724,6 +2770,7 @@
       doc,
       setDoc,
       addDoc,
+      updateDoc,
       getDoc,
       getDocs,
       query,
@@ -2813,6 +2860,52 @@
 
       const data = await response.json();
       return data.secure_url;
+    }
+
+
+    async function replacePetPhoto(){
+      const input = document.getElementById("replacePhotoInput");
+      const button = document.getElementById("replacePhotoBtn");
+
+      if(!currentPetId || !input || !input.files || !input.files[0]){
+        showToast("Selecciona una imagen primero.");
+        return;
+      }
+
+      const file = input.files[0];
+
+      if(!file.type.startsWith("image/")){
+        showToast("El archivo debe ser una imagen.");
+        return;
+      }
+
+      if(file.size > 8 * 1024 * 1024){
+        showToast("La imagen es muy pesada. Usa una menor a 8 MB.");
+        return;
+      }
+
+      try{
+        button.disabled = true;
+        button.textContent = "Subiendo foto...";
+
+        const fotoURL = await uploadImageToCloudinary(file);
+        await updateDoc(doc(db, "mascotas", currentPetId), {
+          fotoURL,
+          updatedAt: serverTimestamp()
+        });
+
+        showToast("Foto actualizada correctamente ✅");
+        await loadPets();
+        renderDetail();
+      }catch(error){
+        console.error(error);
+        showToast("No se pudo actualizar la foto. Revisa reglas de Firestore o Cloudinary.");
+      }finally{
+        if(button){
+          button.disabled = false;
+          button.textContent = "Subir / cambiar foto";
+        }
+      }
     }
 
     function openRegister(){ registerModal.classList.add("show"); }
@@ -3033,6 +3126,15 @@
               <span class="quick-tag orange">${pet.edad || "Sin edad"}</span>
               <span class="quick-tag green">${pet.sexo}</span>
             </div>
+
+            <div class="photo-update-box">
+              <b>¿La foto no se cargó bien?</b>
+              <small>Sube nuevamente una imagen para esta mascota. Se actualizará solo la foto, no se borrará el reporte.</small>
+              <div class="photo-update-actions">
+                <input type="file" id="replacePhotoInput" accept="image/*">
+                <button class="btn btn-primary" type="button" id="replacePhotoBtn">Subir / cambiar foto</button>
+              </div>
+            </div>
           </div>
 
           <div class="detail-side">
@@ -3126,6 +3228,12 @@
           openPhotoViewer(img.dataset.full || img.src);
         });
       });
+
+
+      const replacePhotoBtn = document.getElementById("replacePhotoBtn");
+      if(replacePhotoBtn){
+        replacePhotoBtn.addEventListener("click", replacePetPhoto);
+      }
 
       const commentForm = document.getElementById("commentForm");
       commentForm.fecha.value = new Date().toISOString().slice(0,10);

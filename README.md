@@ -1,25 +1,39 @@
-# patitas.trujillo - versión lista para AdSense
+# patitas.trujillo - re-subir foto
 
-Incluye:
-- Política de privacidad.
-- Términos y condiciones.
-- Contacto.
-- Sobre nosotros.
-- Secciones informativas útiles.
-- Consejos de seguridad.
-- Preguntas frecuentes.
-- Moderación y contenido permitido.
-- Código de AdSense.
-- Firebase + Cloudinary.
-- PWA para app.
+Nueva función:
+- Dentro de la ficha de cada mascota aparece "Subir / cambiar foto".
+- Permite cargar nuevamente una imagen si la primera no subió bien.
+- Solo actualiza la fotoURL del reporte en Firestore.
+- No borra el reporte ni los comentarios.
 
 IMPORTANTE:
-Antes de solicitar revisión final en AdSense, cambia el correo:
-brian166666@gmail.com
-por un correo real que puedas atender.
+Cambia las reglas de Firestore para permitir update en mascotas:
 
-Sube todos los archivos a GitHub y abre:
-https://patitastrujillo.vercel.app/?v=8
+rules_version = '2';
 
+service cloud.firestore {
+  match /databases/{database}/documents {
 
-Correo de contacto actualizado: brian166666@gmail.com
+    match /mascotas/{mascotaId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if false;
+
+      match /comentarios/{comentarioId} {
+        allow read: if true;
+        allow create: if true;
+        allow update, delete: if false;
+      }
+    }
+
+    match /estadisticas/{docId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if false;
+    }
+  }
+}
+
+Después abre:
+https://patitastrujillo.vercel.app/?v=10
