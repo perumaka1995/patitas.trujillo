@@ -1,39 +1,11 @@
-# patitas.trujillo - re-subir foto
+# Patitas Trujillo - información en modales
 
-Nueva función:
-- Dentro de la ficha de cada mascota aparece "Subir / cambiar foto".
-- Permite cargar nuevamente una imagen si la primera no subió bien.
-- Solo actualiza la fotoURL del reporte en Firestore.
-- No borra el reporte ni los comentarios.
+Cambios:
+- La marca visible ahora dice Patitas Trujillo.
+- Se ocultó la información larga de la página principal.
+- Se agregó un Centro de ayuda y normas con iconos.
+- Al hacer click en cada icono se abre una ventana con la información.
+- Se mantiene AdSense, Firebase, Cloudinary, contador, re-subir foto y PWA.
 
-IMPORTANTE:
-Cambia las reglas de Firestore para permitir update en mascotas:
-
-rules_version = '2';
-
-service cloud.firestore {
-  match /databases/{database}/documents {
-
-    match /mascotas/{mascotaId} {
-      allow read: if true;
-      allow create: if true;
-      allow update: if true;
-      allow delete: if false;
-
-      match /comentarios/{comentarioId} {
-        allow read: if true;
-        allow create: if true;
-        allow update, delete: if false;
-      }
-    }
-
-    match /estadisticas/{docId} {
-      allow read: if true;
-      allow create, update: if true;
-      allow delete: if false;
-    }
-  }
-}
-
-Después abre:
-https://patitastrujillo.vercel.app/?v=10
+Sube todos los archivos a GitHub y abre:
+https://patitastrujillo.vercel.app/?v=11

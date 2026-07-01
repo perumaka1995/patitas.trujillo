@@ -1,4 +1,4 @@
-const CACHE_NAME = "patitas-trujillo-v10-re-subir-foto";
+const CACHE_NAME = "patitas-trujillo-v11-info-modal";
 const APP_SHELL = [
   "/",
   "/index.html",
