@@ -2575,6 +2575,168 @@
       }
     }
 
+  
+    /* VISTA MÓVIL COMPACTA: 2 columnas en celular */
+    @media(max-width:720px){
+      .results-head{
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:8px !important;
+        margin:14px 0 10px !important;
+      }
+
+      .results-head h2{
+        font-size:21px !important;
+        line-height:1.1 !important;
+      }
+
+      .results-head p{
+        font-size:12px !important;
+      }
+
+      .results-head .btn{
+        min-height:38px !important;
+        font-size:12px !important;
+        border-radius:12px !important;
+      }
+
+      .cards{
+        display:grid !important;
+        grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+        gap:9px !important;
+        align-items:start !important;
+      }
+
+      .card{
+        border-radius:16px !important;
+        min-width:0 !important;
+        box-shadow:0 6px 16px rgba(15,23,42,.06) !important;
+      }
+
+      .card-media{
+        height:185px !important;
+        min-height:0 !important;
+        aspect-ratio:auto !important;
+        background:#f8fafc !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+      }
+
+      .card-media img{
+        width:100% !important;
+        height:100% !important;
+        object-fit:contain !important;
+        background:#f8fafc !important;
+      }
+
+      .status-pill{
+        left:7px !important;
+        top:7px !important;
+        padding:5px 8px !important;
+        font-size:9px !important;
+      }
+
+      .card-body{
+        padding:9px !important;
+        gap:6px !important;
+      }
+
+      .pet-title{
+        font-size:15.5px !important;
+        line-height:1.12 !important;
+        gap:4px !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+      }
+
+      .tags{
+        gap:4px !important;
+      }
+
+      .tag{
+        max-width:100% !important;
+        font-size:8px !important;
+        padding:4px 6px !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+      }
+
+      .meta{
+        gap:3px !important;
+        font-size:9.5px !important;
+        line-height:1.22 !important;
+      }
+
+      .meta span{
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+      }
+
+      .phone{
+        padding:7px 8px !important;
+        font-size:10.5px !important;
+        border-radius:10px !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+      }
+
+      .card-actions{
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:6px !important;
+      }
+
+      .card-actions .btn{
+        min-height:32px !important;
+        padding:7px 6px !important;
+        font-size:10.5px !important;
+        border-radius:10px !important;
+      }
+
+      .empty{
+        grid-column:1 / -1 !important;
+      }
+    }
+
+    /* Celulares muy pequeños: vuelve a 1 columna para que no se rompa */
+    @media(max-width:330px){
+      .cards{
+        grid-template-columns:1fr !important;
+      }
+
+      .card-media{
+        height:230px !important;
+      }
+
+      .pet-title{
+        font-size:18px !important;
+      }
+
+      .tag{
+        font-size:10px !important;
+      }
+
+      .meta{
+        font-size:12px !important;
+      }
+    }
+
+    /* Celulares grandes o tablets pequeñas: 3 columnas */
+    @media(min-width:540px) and (max-width:820px){
+      .cards{
+        grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+      }
+
+      .card-media{
+        height:170px !important;
+      }
+    }
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />

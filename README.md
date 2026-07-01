@@ -1,15 +1,12 @@
-# Patitas Trujillo - fix modales de información
+# Patitas Trujillo - móvil 2 columnas
 
-Corrección:
-- Ahora los botones del Centro de ayuda y normas abren correctamente la información.
-- Se usa un script independiente con delegación de eventos.
-- Funciona también en los botones del footer.
-- Se actualizó el cache del service worker.
+Cambios:
+- En celular ahora las mascotas se ven en 2 columnas.
+- En celulares grandes/tablets pequeñas se muestran 3 columnas.
+- Las tarjetas son más compactas.
+- Las fotos siguen completas, sin recorte.
+- Al hacer click en la ficha, la foto puede verse completa.
+- Se mantiene Firebase, Cloudinary, AdSense, PWA, re-subir foto y modales de información.
 
 Sube todos los archivos a GitHub y abre:
-https://patitastrujillo.vercel.app/?v=12
-
-Si sigue cargando la versión antigua:
-- Actualiza con Ctrl + F5 en PC.
-- En celular abre en modo incógnito o borra caché.
-- Si la app está instalada, desinstálala y vuelve a instalarla.
+https://patitastrujillo.vercel.app/?v=13
