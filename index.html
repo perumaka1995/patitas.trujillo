@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patitas con Amor Trujillo | Mascotas perdidas y encontradas</title>
+  <meta name="description" content="Plataforma comunitaria para reportar y encontrar mascotas en Trujillo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    :root{
+      --pink:#ff8fb3;
+      --pink-dark:#e86f9a;
+      --peach:#ffc6a8;
+      --cream:#fff8ef;
+      --cream-2:#fff1e7;
+      --mint:#9be7c9;
+      --mint-dark:#4fb98d;
+      --lavender:#c7b6ff;
+      --yellow:#ffd86f;
+      --blue:#8ed6ff;
+      --danger:#ff6f8f;
+      --success:#5fcf9b;
+      --warning:#e9a93b;
+      --text:#47343b;
+      --muted:#8a747c;
+      --card:#fffefd;
+      --line:#f4dce6;
+      --shadow:0 18px 38px rgba(255,143,179,.18);
+      --shadow-soft:0 10px 24px rgba(135,92,108,.09);
+    }
+
+    *{box-sizing:border-box}
+
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      font-family:"Quicksand",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at 12% 6%, rgba(255,143,179,.28), transparent 24%),
+        radial-gradient(circle at 86% 10%, rgba(155,231,201,.28), transparent 25%),
+        radial-gradient(circle at 50% 100%, rgba(199,182,255,.22), transparent 30%),
+        linear-gradient(180deg,#fff8ef 0%,#fff4f8 48%,#f8fff8 100%);
+      color:var(--text);
+    }
+
+    a{text-decoration:none;color:inherit}
+
+    .container{max-width:1180px;margin:auto}
+
+    .hero{
+      padding:24px 18px 90px;
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(135deg, rgba(255,198,168,.62), rgba(255,143,179,.38) 46%, rgba(155,231,201,.42));
+      border-bottom:1px solid rgba(255,143,179,.25);
+    }
+
+    .hero:before{
+      content:"🐾";
+      position:absolute;
+      font-size:190px;
+      opacity:.10;
+      left:-18px;
+      top:70px;
+      transform:rotate(-18deg);
+    }
+
+    .hero:after{
+      content:"♡";
+      position:absolute;
+      font-size:260px;
+      opacity:.15;
+      right:20px;
+      top:-78px;
+      color:#fff;
+      transform:rotate(12deg);
+    }
+
+    .nav{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      font-family:"Baloo 2",cursive;
+      font-size:31px;
+      font-weight:800;
+      letter-spacing:-.6px;
+      color:#5b3442;
+    }
+
+    .brand-icon{
+      width:64px;
+      height:64px;
+      border-radius:26px;
+      background:#fff;
+      border:3px solid rgba(255,255,255,.9);
+      display:grid;
+      place-items:center;
+      font-size:33px;
+      box-shadow:0 13px 28px rgba(232,111,154,.22);
+      flex:none;
+    }
+
+    .brand small{
+      display:block;
+      font-family:"Quicksand",sans-serif;
+      font-size:12px;
+      font-weight:700;
+      color:#7b5963;
+      letter-spacing:.1px;
+      margin-top:-3px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:0;
+      border-radius:999px;
+      padding:13px 19px;
+      font:inherit;
+      font-weight:800;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      transition:.16s ease;
+      white-space:nowrap;
+      box-shadow:0 8px 18px rgba(124,76,92,.08);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px) scale(1.01);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,var(--pink),var(--pink-dark));
+      color:#fff;
+    }
+
+    .btn-secondary{
+      background:linear-gradient(135deg,var(--mint),var(--mint-dark));
+      color:#fff;
+    }
+
+    .btn-soft{
+      background:#fff;
+      color:#d75f8c;
+      border:1px solid #ffd5e2;
+    }
+
+    .btn-ghost{
+      background:#fff1f7;
+      color:#8b5367;
+      border:1px solid #ffd7e4;
+    }
+
+    .pill-row{
+      margin-top:24px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      position:relative;
+      z-index:2;
+    }
+
+    .mini-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(255,255,255,.74);
+      border:1px solid rgba(255,255,255,.9);
+      border-radius:999px;
+      padding:10px 15px;
+      font-size:14px;
+      font-weight:800;
+      color:#6c4c58;
+      box-shadow:0 9px 18px rgba(255,143,179,.12);
+      backdrop-filter:blur(8px);
+    }
+
+    .hero-grid{
+      position:relative;
+      z-index:2;
+      margin-top:28px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:26px;
+      align-items:center;
+    }
+
+    .hero-copy h1{
+      margin:0 0 14px;
+      font-family:"Baloo 2",cursive;
+      font-size:56px;
+      line-height:.94;
+      letter-spacing:-1.3px;
+      color:#5a3441;
+    }
+
+    .hero-copy p{
+      margin:0;
+      color:#70545e;
+      font-size:17px;
+      line-height:1.68;
+      max-width:680px;
+      font-weight:600;
+    }
+
+    .stat-wrap{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+    }
+
+    .stat{
+      background:rgba(255,255,255,.82);
+      border:1px solid rgba(255,255,255,.92);
+      border-radius:28px;
+      padding:20px 14px;
+      box-shadow:var(--shadow);
+      text-align:center;
+      backdrop-filter:blur(8px);
+    }
+
+    .stat b{
+      display:block;
+      font-family:"Baloo 2",cursive;
+      font-size:38px;
+      line-height:1;
+      color:var(--pink-dark);
+    }
+
+    .stat:nth-child(2) b{color:#f0a53b}
+    .stat:nth-child(3) b{color:var(--mint-dark)}
+
+    .stat span{
+      display:block;
+      margin-top:4px;
+      color:#83636e;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+    }
+
+    main{
+      max-width:1180px;
+      margin:-42px auto 42px;
+      padding:0 18px;
+      position:relative;
+      z-index:5;
+    }
+
+    .panel{
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(255,213,226,.9);
+      border-radius:34px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter:blur(10px);
+    }
+
+    .tabs{
+      padding:15px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      border-bottom:1px solid #ffe1eb;
+      background:linear-gradient(180deg,#fff 0%,#fff6fa 100%);
+    }
+
+    .tab{
+      border:1px solid #ffd8e5;
+      background:#fff;
+      color:#8a596b;
+      padding:12px 18px;
+      border-radius:999px;
+      font:inherit;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .tab.active{
+      background:linear-gradient(135deg,var(--pink),var(--lavender));
+      border-color:transparent;
+      color:#fff;
+    }
+
+    .filters{
+      padding:24px;
+      display:grid;
+      gap:18px;
+    }
+
+    .search{
+      position:relative;
+    }
+
+    .search input,.field,select,textarea{
+      width:100%;
+      padding:15px 15px;
+      border:1px solid #f6dce7;
+      border-radius:20px;
+      background:#fffefd;
+      color:var(--text);
+      font:inherit;
+      outline:none;
+      font-weight:600;
+      box-shadow:0 6px 14px rgba(255,143,179,.06);
+    }
+
+    .search input:focus,.field:focus,select:focus,textarea:focus{
+      border-color:#ffb2ca;
+      box-shadow:0 0 0 4px rgba(255,143,179,.14);
+    }
+
+    .search input{padding-left:50px}
+
+    .search .icon{
+      position:absolute;
+      left:17px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#d886a2;
+      font-size:18px;
+    }
+
+    .filter-group{
+      display:grid;
+      gap:9px;
+    }
+
+    .filter-title{
+      font-size:12px;
+      font-weight:900;
+      color:#9a6d7d;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chip{
+      border:1px solid #f7dbe6;
+      background:#fff;
+      color:#80576a;
+      border-radius:999px;
+      padding:10px 14px;
+      font:inherit;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 6px 13px rgba(255,143,179,.06);
+    }
+
+    .chip.active{
+      background:linear-gradient(135deg,#ff8fb3,#c7b6ff);
+      border-color:transparent;
+      color:#fff;
+    }
+
+    .chip[data-filter-value="Hembra"].active{background:#f784c4}
+    .chip[data-filter-value="Macho"].active{background:#78b9ff}
+    .chip[data-filter-value="Perdida"].active{background:#ff6f8f}
+    .chip[data-filter-value="Vista"].active{background:#e9a93b}
+    .chip[data-filter-value="Encontrada"].active{background:#5fcf9b}
+    .chip[data-filter-value="En adopción"].active{background:#b69cff}
+
+    .results-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:16px;
+      margin:28px 0 16px;
+    }
+
+    .results-head h2{
+      margin:0;
+      font-family:"Baloo 2",cursive;
+      font-size:34px;
+      line-height:1;
+      letter-spacing:-.6px;
+      color:#5b3442;
+    }
+
+    .results-head p{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.92);
+      border:1px solid #ffe0ea;
+      border-radius:30px;
+      overflow:hidden;
+      box-shadow:var(--shadow-soft);
+      display:flex;
+      flex-direction:column;
+      transition:.18s ease;
+    }
+
+    .card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 18px 32px rgba(255,143,179,.16);
+    }
+
+    .card-media{
+      height:215px;
+      position:relative;
+      cursor:pointer;
+      background:linear-gradient(135deg,#ffe0ec 0%,#fff8ef 48%,#dcfff1 100%);
+      overflow:hidden;
+    }
+
+    .card-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .placeholder{
+      width:100%;
+      height:100%;
+      display:grid;
+      place-items:center;
+      font-size:82px;
+      color:#cc7b99;
+    }
+
+    .status-pill{
+      position:absolute;
+      left:14px;
+      top:14px;
+      background:#fff;
+      color:var(--danger);
+      border:1px solid #ffd7e4;
+      padding:8px 13px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.4px;
+      box-shadow:0 9px 16px rgba(120,80,92,.10);
+    }
+
+    .status-pill.vista{color:#c7861c;background:#fff9e7;border-color:#ffe8a8}
+    .status-pill.encontrada{color:#37a06e;background:#effff6;border-color:#c9f4dd}
+    .status-pill.adopcion{color:#8061d8;background:#f5f1ff;border-color:#e5dcff}
+
+    .card-body{
+      padding:18px;
+      display:grid;
+      gap:11px;
+      flex:1;
+    }
+
+    .pet-title{
+      margin:0;
+      font-family:"Baloo 2",cursive;
+      font-size:27px;
+      line-height:1;
+      font-weight:800;
+      color:#553746;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .tag{
+      font-size:11px;
+      font-weight:900;
+      padding:7px 10px;
+      border-radius:999px;
+    }
+
+    .tag.type{background:#fff1d6;color:#b97818}
+    .tag.sex{background:#ffeaf2;color:#c35e86}
+    .tag.age{background:#eafff6;color:#3b9b71}
+
+    .meta{
+      display:grid;
+      gap:6px;
+      color:#7c6570;
+      font-size:13.5px;
+      line-height:1.42;
+      font-weight:700;
+    }
+
+    .phone{
+      background:#fff6fa;
+      border:1px solid #ffe0ea;
+      color:#684657;
+      border-radius:18px;
+      padding:11px 12px;
+      font-weight:900;
+    }
+
+    .card-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+    }
+
+    .card-actions .btn{
+      padding:11px 10px;
+      font-size:13px;
+    }
+
+    .empty{
+      display:none;
+      background:rgba(255,255,255,.9);
+      border:2px dashed #ffd1df;
+      border-radius:32px;
+      padding:46px 24px;
+      text-align:center;
+      color:var(--muted);
+      box-shadow:var(--shadow-soft);
+    }
+
+    .empty h3{
+      margin:0 0 8px;
+      font-family:"Baloo 2",cursive;
+      font-size:30px;
+      color:#5b3442;
+    }
+
+    .empty p{
+      margin:0;
+      font-weight:700;
+    }
+
+    .extra{
+      margin-top:28px;
+      display:grid;
+      grid-template-columns:1.06fr .94fr;
+      gap:18px;
+    }
+
+    .info-box{
+      background:rgba(255,255,255,.9);
+      border:1px solid #ffe0ea;
+      border-radius:32px;
+      padding:25px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .info-box h3{
+      margin:0 0 10px;
+      font-family:"Baloo 2",cursive;
+      font-size:32px;
+      line-height:1;
+      color:#5b3442;
+    }
+
+    .info-box p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.65;
+      font-weight:700;
+    }
+
+    .steps{
+      display:grid;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .step{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      color:#6e535e;
+      font-weight:700;
+    }
+
+    .step b{
+      width:38px;
+      height:38px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      flex:none;
+      background:#fff0f6;
+      color:#d85f8c;
+      border:1px solid #ffd6e3;
+      box-shadow:0 8px 14px rgba(255,143,179,.12);
+    }
+
+    .help-groups{
+      margin-top:28px;
+      background:rgba(255,255,255,.9);
+      border:1px solid #ffe0ea;
+      border-radius:34px;
+      padding:27px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .help-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      padding:7px 12px;
+      border-radius:999px;
+      background:#fff0f6;
+      color:#d65f8d;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      border:1px solid #ffd9e6;
+    }
+
+    .help-head h2{
+      margin:8px 0 10px;
+      font-family:"Baloo 2",cursive;
+      font-size:34px;
+      line-height:1.02;
+      color:#5b3442;
+    }
+
+    .help-head p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.65;
+      max-width:760px;
+      font-weight:700;
+    }
+
+    .group-cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+    }
+
+    .group-card{
+      background:#fff;
+      border:1px solid #ffe0ea;
+      border-radius:26px;
+      padding:18px;
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      box-shadow:0 9px 18px rgba(255,143,179,.08);
+      transition:.16s ease;
+    }
+
+    .group-card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 18px 30px rgba(255,143,179,.15);
+    }
+
+    .group-icon{
+      width:52px;
+      height:52px;
+      border-radius:22px;
+      flex:none;
+      display:grid;
+      place-items:center;
+      font-size:28px;
+      background:linear-gradient(135deg,#fff0f6,#edfff6);
+      border:1px solid #ffe0ea;
+    }
+
+    .group-card h3{
+      margin:0 0 6px;
+      font-family:"Baloo 2",cursive;
+      font-size:22px;
+      line-height:1.05;
+      color:#5b3442;
+    }
+
+    .group-card p{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      font-weight:700;
+    }
+
+    .group-card span{
+      color:#d65f8d;
+      font-weight:900;
+      font-size:14px;
+    }
+
+    .publish-tip{
+      margin-top:16px;
+      background:#fff8fb;
+      border:2px dashed #ffd0df;
+      border-radius:24px;
+      padding:17px 19px;
+      color:#6e535e;
+      line-height:1.6;
+      font-weight:700;
+    }
+
+    .publish-tip b{
+      display:block;
+      color:#d65f8d;
+      margin-bottom:6px;
+    }
+
+    .publish-tip p{margin:0}
+
+    .modal{
+      position:fixed;
+      inset:0;
+      padding:18px;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(85,52,70,.38);
+      backdrop-filter:blur(10px);
+      z-index:60;
+    }
+
+    .modal.show{display:flex}
+
+    .modal-card{
+      width:min(1080px,100%);
+      max-height:92vh;
+      overflow:auto;
+      background:#fffefd;
+      border:1px solid #ffe0ea;
+      border-radius:34px;
+      box-shadow:0 28px 70px rgba(88,50,70,.25);
+    }
+
+    .modal-head{
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:18px 23px;
+      background:rgba(255,254,253,.94);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid #ffe0ea;
+    }
+
+    .modal-head h3{
+      margin:0;
+      font-family:"Baloo 2",cursive;
+      font-size:32px;
+      line-height:1;
+      color:#5b3442;
+    }
+
+    .close{
+      border:1px solid #ffd6e3;
+      background:#fff5f9;
+      width:44px;
+      height:44px;
+      border-radius:18px;
+      font-size:22px;
+      cursor:pointer;
+      color:#9d5b73;
+    }
+
+    .form-grid{
+      padding:24px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    label{
+      display:grid;
+      gap:7px;
+      font-size:12px;
+      font-weight:900;
+      color:#96687a;
+      text-transform:none;
+    }
+
+    label.full{grid-column:1/-1}
+
+    textarea{
+      min-height:104px;
+      resize:vertical;
+    }
+
+    .modal-foot{
+      padding:0 24px 24px;
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .detail-layout{
+      padding:24px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+      background:linear-gradient(180deg,#fffefd 0%,#fff6fa 100%);
+    }
+
+    .detail-photo-wrap{
+      background:#fff;
+      border:1px solid #ffe0ea;
+      border-radius:32px;
+      padding:14px;
+      box-shadow:var(--shadow-soft);
+      display:grid;
+      gap:14px;
+      align-self:start;
+      position:sticky;
+      top:78px;
+    }
+
+    .detail-photo{
+      aspect-ratio:4/3;
+      border-radius:26px;
+      overflow:hidden;
+      background:linear-gradient(135deg,#ffe2ed 0%,#fff8ef 50%,#e0fff3 100%);
+      display:grid;
+      place-items:center;
+    }
+
+    .detail-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .detail-photo .placeholder{
+      font-size:116px;
+    }
+
+    .quick-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .quick-tag{
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      background:#fff1f7;
+      color:#d65f8d;
+      border:1px solid #ffdbe7;
+    }
+
+    .quick-tag.green{background:#ecfff6;color:#3b9b71;border-color:#c9f4dd}
+    .quick-tag.orange{background:#fff7df;color:#b47b19;border-color:#ffeab0}
+    .quick-tag.violet{background:#f4efff;color:#7a60d7;border-color:#e5dbff}
+
+    .detail-side{
+      display:grid;
+      gap:16px;
+      align-self:start;
+    }
+
+    .glass-card{
+      background:#fff;
+      border:1px solid #ffe0ea;
+      border-radius:30px;
+      padding:20px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .detail-title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .detail-title{
+      margin:0;
+      font-family:"Baloo 2",cursive;
+      font-size:39px;
+      line-height:.98;
+      color:#5b3442;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .status-box{
+      padding:9px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      background:#fff2f5;
+      color:var(--danger);
+      border:1px solid #ffd7e2;
+    }
+
+    .status-box.vista{background:#fff8e3;color:#bf861b;border-color:#ffe6a8}
+    .status-box.encontrada{background:#effff6;color:#37a06e;border-color:#c9f4dd}
+    .status-box.adopcion{background:#f5f1ff;color:#8061d8;border-color:#e5dcff}
+
+    .detail-desc{
+      margin:0;
+      color:#70545e;
+      line-height:1.65;
+      font-size:15.5px;
+      font-weight:700;
+    }
+
+    .detail-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .detail-item{
+      background:#fff8fb;
+      border:1px solid #ffe0ea;
+      border-radius:22px;
+      padding:14px;
+    }
+
+    .detail-item b{
+      display:block;
+      font-size:12px;
+      color:#9b6f7f;
+      text-transform:uppercase;
+      letter-spacing:.7px;
+      margin-bottom:6px;
+    }
+
+    .detail-item span{
+      font-size:15px;
+      font-weight:900;
+      color:#5b3442;
+    }
+
+    .contact-box{
+      display:grid;
+      gap:10px;
+    }
+
+    .phone-large{
+      background:linear-gradient(135deg,#9be7c9,#5fcf9b);
+      color:#fff;
+      border-radius:24px;
+      padding:17px 19px;
+      font-size:25px;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      box-shadow:0 13px 22px rgba(95,207,155,.20);
+    }
+
+    .phone-large small{
+      display:block;
+      font-size:13px;
+      font-weight:800;
+      opacity:.94;
+    }
+
+    .detail-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .callout{
+      background:#fff8fb;
+      border:1px solid #ffe0ea;
+      border-radius:22px;
+      padding:15px;
+    }
+
+    .callout b{
+      display:block;
+      color:#d65f8d;
+      margin-bottom:6px;
+      font-weight:900;
+    }
+
+    .callout p{
+      margin:0;
+      color:#6e535e;
+      line-height:1.6;
+      font-weight:700;
+    }
+
+    .comments-wrap{
+      display:grid;
+      gap:14px;
+    }
+
+    .comments-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .comments-head h4{
+      margin:0;
+      font-family:"Baloo 2",cursive;
+      font-size:26px;
+      line-height:1;
+      color:#5b3442;
+    }
+
+    .comment-form{
+      display:grid;
+      grid-template-columns:1fr 170px;
+      gap:12px;
+    }
+
+    .comment-form .full{grid-column:1/-1}
+
+    .comment-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .comment-card{
+      background:#fff8fb;
+      border:1px solid #ffe0ea;
+      border-radius:24px;
+      padding:14px;
+    }
+
+    .comment-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:9px;
+    }
+
+    .comment-user{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      color:#5b3442;
+    }
+
+    .avatar{
+      width:42px;
+      height:42px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:linear-gradient(135deg,var(--pink),var(--lavender));
+      font-weight:900;
+      box-shadow:0 9px 16px rgba(255,143,179,.18);
+    }
+
+    .comment-meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      font-size:12px;
+    }
+
+    .mini-pill{
+      background:#fff1f7;
+      color:#c85f88;
+      padding:6px 9px;
+      border-radius:999px;
+      font-weight:900;
+    }
+
+    .mini-pill.green{
+      background:#edfff6;
+      color:#3b9b71;
+    }
+
+    .comment-body{
+      color:#6e535e;
+      line-height:1.6;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .no-comments{
+      text-align:center;
+      color:var(--muted);
+      padding:18px;
+      border:2px dashed #ffd2e1;
+      border-radius:22px;
+      background:#fff8fb;
+      font-weight:800;
+    }
+
+    .toast{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:90;
+      background:#5b3442;
+      color:#fff;
+      padding:14px 18px;
+      border-radius:18px;
+      font-weight:900;
+      box-shadow:0 14px 28px rgba(91,52,66,.25);
+      display:none;
+    }
+
+    .toast.show{display:block}
+
+    footer{
+      text-align:center;
+      padding:30px 18px 44px;
+      color:#96707f;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    @media(max-width:980px){
+      .hero-grid,.extra,.detail-layout{grid-template-columns:1fr}
+      .stat-wrap,.group-cards,.cards{grid-template-columns:repeat(2,1fr)}
+      .detail-photo-wrap{position:static}
+      .help-head{flex-direction:column}
+    }
+
+    @media(max-width:720px){
+      .nav{flex-direction:column;align-items:flex-start}
+      .hero-actions{width:100%}
+      .hero-actions .btn{flex:1}
+      .hero-copy h1{font-size:40px}
+      .stat-wrap,.cards,.group-cards{grid-template-columns:1fr}
+      .results-head{flex-direction:column;align-items:flex-start}
+      .filters,.help-groups,.info-box{padding:20px}
+      .form-grid,.detail-grid,.comment-form,.detail-actions,.card-actions{grid-template-columns:1fr}
+      .detail-layout{padding:16px}
+      .modal-card{border-radius:26px}
+      .detail-title{font-size:32px}
+      .phone-large{font-size:20px}
+      main{margin-top:-24px}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="nav">
+        <a href="#" class="brand">
+          <span class="brand-icon">🐾</span>
+          <span>Patitas con Amor
+            <small>Una red dulce para que cada patita vuelva a casa</small>
+          </span>
+        </a>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="openRegisterTop">Registrar patita</button>
+          <a class="btn btn-soft" target="_blank" href="#grupos-ayuda">Grupos de ayuda</a>
+        </div>
+      </div>
+
+      <div class="pill-row">
+        <span class="mini-badge">📍 Trujillo, La Libertad</span>
+        <span class="mini-badge">💬 Contacto directo por WhatsApp</span>
+        <span class="mini-badge">📝 Comentarios para reportar avistamientos</span>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>Ayudemos a que cada patita vuelva a casa</h1>
+          <p>
+            Publica reportes, comparte en grupos de ayuda y permite que los vecinos dejen comentarios si vieron a la mascota. Todo con un estilo más cálido, tierno y amigable.
+          </p>
+        </div>
+        <div class="stat-wrap">
+          <div class="stat"><b id="statRegistradas">0</b><span>Registradas</span></div>
+          <div class="stat"><b id="statPerdidas">0</b><span>Perdidas</span></div>
+          <div class="stat"><b id="statEncontradas">0</b><span>Encontradas</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="tabs">
+        <button class="tab active">Buscar mascota</button>
+        <button class="tab" id="openRegisterTab">Registrar patita</button>
+      </div>
+
+      <div class="filters">
+        <div class="search">
+          <span class="icon">🔎</span>
+          <input id="searchInput" type="text" placeholder="Busca por nombre, color, zona, collar o descripción..." />
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Tipo de mascota</div>
+          <div class="chips" data-filter="tipo">
+            <button class="chip active" data-filter-value="Todos">Todos</button>
+            <button class="chip" data-filter-value="Perro">🐶 Perro</button>
+            <button class="chip" data-filter-value="Gato">🐱 Gato</button>
+            <button class="chip" data-filter-value="Otro">🐾 Otro</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Sexo</div>
+          <div class="chips" data-filter="sexo">
+            <button class="chip active" data-filter-value="Todos">Todos</button>
+            <button class="chip" data-filter-value="Hembra">♀ Hembra</button>
+            <button class="chip" data-filter-value="Macho">♂ Macho</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Estado</div>
+          <div class="chips" data-filter="estado">
+            <button class="chip active" data-filter-value="Todos">Todos</button>
+            <button class="chip" data-filter-value="Perdida">🔴 Perdidas</button>
+            <button class="chip" data-filter-value="Vista">🟡 Vistas</button>
+            <button class="chip" data-filter-value="Encontrada">🟢 Encontradas</button>
+            <button class="chip" data-filter-value="En adopción">💜 En adopción</button>
+          </div>
+        </div>
+
+        <label class="filter-group">
+          <span class="filter-title">Distrito / zona</span>
+          <select id="districtFilter">
+            <option value="Todos">Todos los distritos</option>
+            <option>Trujillo</option>
+            <option>La Esperanza</option>
+            <option>El Porvenir</option>
+            <option>Florencia de Mora</option>
+            <option>Víctor Larco Herrera</option>
+            <option>Huanchaco</option>
+            <option>Moche</option>
+            <option>Salaverry</option>
+            <option>Laredo</option>
+            <option>Poroto</option>
+            <option>Simbal</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <div class="results-head">
+      <div>
+        <h2>Patitas publicadas</h2>
+        <p id="counterText">La página está limpia y lista para registrar mascotas.</p>
+      </div>
+      <button class="btn btn-secondary" id="openRegisterBottom">Nueva patita</button>
+    </div>
+
+    <section class="cards" id="cards"></section>
+    <section class="empty" id="emptyState">
+      <h3>Aún no hay patitas registradas 🐾</h3>
+      <p>La página está limpia y lista. Registra la primera patita para empezar a ayudar.</p>
+    </section>
+
+    <section class="extra">
+      <article class="info-box">
+        <h3>Cómo ayudamos</h3>
+        <p>
+          Registra una mascota, abre su ficha en “Ver detalles”, comparte el enlace y permite que otras
+          personas dejen comentarios indicando dónde la vieron y en qué fecha.
+        </p>
+        <div class="steps">
+          <div class="step"><b>1</b><span>Publica la mascota con foto, zona, fecha y teléfono.</span></div>
+          <div class="step"><b>2</b><span>Haz clic en la foto o en “Ver detalles” para abrir la ficha completa.</span></div>
+          <div class="step"><b>3</b><span>El contacto por WhatsApp se abre directo al número registrado por la persona.</span></div>
+        </div>
+      </article>
+
+      <article class="info-box">
+        <h3>Tips con cariño</h3>
+        <p>
+          Usa una foto clara, agrega señales particulares, indica la última zona donde fue visto y comparte
+          el reporte en grupos de Facebook y WhatsApp de Trujillo.
+        </p>
+        <div style="margin-top:16px">
+          <button class="btn btn-primary" id="openRegisterInfo">Registrar ahora</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="help-groups" id="grupos-ayuda">
+      <div class="help-head">
+        <div>
+          <span class="eyebrow">Red de apoyo</span>
+          <h2>Grupos de ayuda para búsqueda de mascotas en Trujillo</h2>
+          <p>
+            Comparte el caso de tu mascota en estos grupos de Facebook para aumentar las posibilidades de encontrarla.
+            Publica foto, zona, fecha, número de contacto y una descripción breve.
+          </p>
+        </div>
+        <button class="btn btn-primary" id="openRegisterGroups">Registrar patita</button>
+      </div>
+
+      <div class="group-cards">
+        <a class="group-card" href="https://www.facebook.com/share/g/17cF3eoG7C/" target="_blank" rel="noopener">
+          <div class="group-icon">🐶</div>
+          <div>
+            <h3>Perros Perdidos Trujillo</h3>
+            <p>Grupo útil para publicar perros perdidos, vistos o encontrados dentro de Trujillo.</p>
+            <span>Ir al grupo →</span>
+          </div>
+        </a>
+
+        <a class="group-card" href="https://www.facebook.com/share/g/1GtogNuhbp/" target="_blank" rel="noopener">
+          <div class="group-icon">🚑</div>
+          <div>
+            <h3>Rescate Animal Trujillo</h3>
+            <p>Espacio para solicitudes de apoyo, rescates, reportes urgentes y difusión comunitaria.</p>
+            <span>Ir al grupo →</span>
+          </div>
+        </a>
+
+        <a class="group-card" href="https://www.facebook.com/share/g/1dJXmrynZF/" target="_blank" rel="noopener">
+          <div class="group-icon">📢</div>
+          <div>
+            <h3>Eventos Animalistas Trujillo</h3>
+            <p>Ideal para campañas, difusión de adopciones, publicaciones y eventos relacionados con animales.</p>
+            <span>Ir al grupo →</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="publish-tip">
+        <b>Texto sugerido para publicar:</b>
+        <p>
+          “Se perdió mi mascota en Trujillo. Responde al nombre de [NOMBRE]. Fue vista por última vez en [ZONA] el [FECHA].
+          Tiene [DESCRIPCIÓN]. Si la viste, por favor comunícate al [TELÉFONO].”
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Patitas con Amor · versión tierna, limpia y lista para ayudar.
+  </footer>
+
+  <div class="modal" id="registerModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Registrar patita</h3>
+        <button class="close" id="closeRegister">×</button>
+      </div>
+      <form class="form-grid" id="petForm">
+        <label>Nombre de la mascota
+          <input class="field" name="nombre" required placeholder="Ej: Luna, Rocky, Michi" />
+        </label>
+        <label>Tipo
+          <select name="tipo" required>
+            <option>Perro</option>
+            <option>Gato</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label>Sexo
+          <select name="sexo" required>
+            <option>Macho</option>
+            <option>Hembra</option>
+          </select>
+        </label>
+        <label>Estado
+          <select name="estado" required>
+            <option>Perdida</option>
+            <option>Vista</option>
+            <option>Encontrada</option>
+            <option>En adopción</option>
+          </select>
+        </label>
+        <label>Edad aproximada
+          <input class="field" name="edad" placeholder="Ej: 2 años, cachorro, adulto" />
+        </label>
+        <label>Color / raza
+          <input class="field" name="raza" placeholder="Ej: Mestizo, gris, schnauzer..." />
+        </label>
+        <label>Distrito
+          <select name="distrito" required>
+            <option>Trujillo</option>
+            <option>La Esperanza</option>
+            <option>El Porvenir</option>
+            <option>Florencia de Mora</option>
+            <option>Víctor Larco Herrera</option>
+            <option>Huanchaco</option>
+            <option>Moche</option>
+            <option>Salaverry</option>
+            <option>Laredo</option>
+            <option>Poroto</option>
+            <option>Simbal</option>
+          </select>
+        </label>
+        <label>Zona exacta
+          <input class="field" name="zona" required placeholder="Ej: Av. España, Urb. La Merced..." />
+        </label>
+        <label>Fecha del reporte
+          <input class="field" name="fecha" type="date" required />
+        </label>
+        <label>Teléfono / WhatsApp
+          <input class="field" name="telefono" required placeholder="Ej: 987654321 o 51987654321" />
+          <small style="color:#7d7066;font-weight:700">El número se enlazará directo a WhatsApp. Si es de Perú, puedes escribir solo los 9 dígitos.</small>
+        </label>
+        <label class="full">Foto de la mascota
+          <input class="field" name="foto" type="file" accept="image/*" />
+        </label>
+        <label class="full">Descripción
+          <textarea name="descripcion" required placeholder="Color, collar, tamaño, temperamento, dónde fue vista o perdida..."></textarea>
+        </label>
+      </form>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" id="resetReports">Limpiar reportes</button>
+        <button class="btn btn-soft" id="cancelRegister">Cancelar</button>
+        <button class="btn btn-primary" type="submit" form="petForm">Guardar patita</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="detailModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Ficha de la patita</h3>
+        <button class="close" id="closeDetail">×</button>
+      </div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const demoPets = [];
+    const storageKey = "patitasConAmorTiernaV1";
+    let pets = JSON.parse(localStorage.getItem(storageKey) || "null") || [];
+    let currentPetId = null;
+    let activeFilters = { tipo:"Todos", sexo:"Todos", estado:"Todos" };
+
+    const cards = document.getElementById("cards");
+    const emptyState = document.getElementById("emptyState");
+    const searchInput = document.getElementById("searchInput");
+    const districtFilter = document.getElementById("districtFilter");
+    const counterText = document.getElementById("counterText");
+    const registerModal = document.getElementById("registerModal");
+    const detailModal = document.getElementById("detailModal");
+    const detailContent = document.getElementById("detailContent");
+    const toast = document.getElementById("toast");
+    const form = document.getElementById("petForm");
+
+    function save(){ localStorage.setItem(storageKey, JSON.stringify(pets)); }
+
+    function statusClass(status){
+      if(status === "Vista") return "vista";
+      if(status === "Encontrada") return "encontrada";
+      if(status === "En adopción") return "adopcion";
+      return "";
+    }
+
+    function iconFor(tipo){
+      if(tipo === "Perro") return "🐶";
+      if(tipo === "Gato") return "🐱";
+      return "🐾";
+    }
+
+    function formatDate(date){
+      if(!date) return "Sin fecha";
+      const [y,m,d] = date.split("-");
+      return `${d}/${m}/${y}`;
+    }
+
+    function normalizeWhatsappNumber(phone){
+      let clean = String(phone || "").replace(/\D/g, "");
+      if(clean.length === 9) clean = "51" + clean;
+      return clean;
+    }
+
+    function whatsappMessage(pet, text){
+      const phone = normalizeWhatsappNumber(pet.telefono);
+      const msg = encodeURIComponent(`${text} ${pet.nombre}. Zona: ${pet.zona}, ${pet.distrito}.`);
+      return phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`;
+    }
+
+    function openRegister(){ registerModal.classList.add("show"); }
+    function closeRegister(){ registerModal.classList.remove("show"); }
+    function openDetail(id){
+      currentPetId = id;
+      renderDetail();
+      detailModal.classList.add("show");
+    }
+    function closeDetail(){ detailModal.classList.remove("show"); }
+
+    document.querySelectorAll("#openRegisterTop,#openRegisterTab,#openRegisterBottom,#openRegisterInfo,#openRegisterGroups")
+      .forEach(btn => btn.addEventListener("click", openRegister));
+    document.getElementById("closeRegister").addEventListener("click", closeRegister);
+    document.getElementById("cancelRegister").addEventListener("click", closeRegister);
+    document.getElementById("closeDetail").addEventListener("click", closeDetail);
+
+    registerModal.addEventListener("click", (e)=>{ if(e.target === registerModal) closeRegister(); });
+    detailModal.addEventListener("click", (e)=>{ if(e.target === detailModal) closeDetail(); });
+
+    document.querySelectorAll(".chips").forEach(group=>{
+      group.addEventListener("click", (e)=>{
+        if(!e.target.classList.contains("chip")) return;
+        group.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+        e.target.classList.add("active");
+        activeFilters[group.dataset.filter] = e.target.dataset.filterValue;
+        render();
+      });
+    });
+
+    searchInput.addEventListener("input", render);
+    districtFilter.addEventListener("change", render);
+
+    function render(){
+      const q = searchInput.value.trim().toLowerCase();
+      const district = districtFilter.value;
+
+      const filtered = pets.filter(p => {
+        const text = `${p.nombre} ${p.tipo} ${p.sexo} ${p.estado} ${p.distrito} ${p.zona} ${p.descripcion} ${p.raza || ""}`.toLowerCase();
+        return (!q || text.includes(q))
+          && (activeFilters.tipo === "Todos" || p.tipo === activeFilters.tipo)
+          && (activeFilters.sexo === "Todos" || p.sexo === activeFilters.sexo)
+          && (activeFilters.estado === "Todos" || p.estado === activeFilters.estado)
+          && (district === "Todos" || p.distrito === district);
+      });
+
+      cards.innerHTML = "";
+      filtered.forEach(p=>{
+        const article = document.createElement("article");
+        article.className = "card";
+        article.innerHTML = `
+          <div class="card-media js-open-detail" data-id="${p.id}">
+            ${p.foto ? `<img src="${p.foto}" alt="Foto de ${p.nombre}">` : `<div class="placeholder">${iconFor(p.tipo)}</div>`}
+            <span class="status-pill ${statusClass(p.estado)}">${p.estado}</span>
+          </div>
+          <div class="card-body">
+            <h3 class="pet-title">${iconFor(p.tipo)} ${p.nombre}</h3>
+            <div class="tags">
+              <span class="tag type">${p.raza || p.tipo}</span>
+              <span class="tag sex">${p.sexo}</span>
+              <span class="tag age">${p.edad || "Sin edad"}</span>
+            </div>
+            <div class="meta">
+              <span>📍 ${p.zona}</span>
+              <span>🏙️ ${p.distrito}, La Libertad</span>
+              <span>📅 ${p.estado === "Perdida" ? "Perdida" : "Reportada"} el ${formatDate(p.fecha)}</span>
+            </div>
+            <div class="phone">📞 ${p.telefono}</div>
+            <div class="card-actions">
+              <button class="btn btn-soft js-open-detail" data-id="${p.id}">Ver detalles</button>
+              <a class="btn btn-secondary" target="_blank" href="${whatsappMessage(p, "Hola, tengo información sobre")}">WhatsApp</a>
+            </div>
+          </div>
+        `;
+        cards.appendChild(article);
+      });
+
+      document.querySelectorAll(".js-open-detail").forEach(btn => {
+        btn.addEventListener("click", ()=> openDetail(btn.dataset.id));
+      });
+
+      emptyState.style.display = filtered.length ? "none" : "block";
+      counterText.textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"} encontrado${filtered.length === 1 ? "" : "s"} de ${pets.length} mascota${pets.length === 1 ? "" : "s"} registrada${pets.length === 1 ? "" : "s"}.`;
+
+      document.getElementById("statRegistradas").textContent = pets.length;
+      document.getElementById("statPerdidas").textContent = pets.filter(p => p.estado === "Perdida").length;
+      document.getElementById("statEncontradas").textContent = pets.filter(p => p.estado === "Encontrada").length;
+    }
+
+    function renderDetail(){
+      const pet = pets.find(p => p.id === currentPetId);
+      if(!pet){
+        detailContent.innerHTML = `<div style="padding:24px">No se encontró la publicación.</div>`;
+        return;
+      }
+
+      const comments = (pet.comments || []).map(c => `
+        <article class="comment-card">
+          <div class="comment-top">
+            <div class="comment-user">
+              <span class="avatar">${(c.autor || "A").trim().slice(0,1).toUpperCase()}</span>
+              <div>
+                <div>${c.autor || "Anónimo"}</div>
+                <small style="color:#84776c">${c.creado || ""}</small>
+              </div>
+            </div>
+            <div class="comment-meta">
+              <span class="mini-pill">📍 ${c.lugar || "Sin lugar"}</span>
+              <span class="mini-pill green">📅 ${formatDate(c.fecha)}</span>
+            </div>
+          </div>
+          <div class="comment-body">${c.texto}</div>
+        </article>
+      `).join("");
+
+      detailContent.innerHTML = `
+        <div class="detail-layout">
+          <div class="detail-photo-wrap">
+            <div class="detail-photo">
+              ${pet.foto ? `<img src="${pet.foto}" alt="Foto de ${pet.nombre}">` : `<div class="placeholder">${iconFor(pet.tipo)}</div>`}
+            </div>
+            <div class="quick-tags">
+              <span class="quick-tag">${pet.tipo}</span>
+              <span class="quick-tag violet">${pet.raza || "Sin raza"}</span>
+              <span class="quick-tag orange">${pet.edad || "Sin edad"}</span>
+              <span class="quick-tag green">${pet.sexo}</span>
+            </div>
+          </div>
+
+          <div class="detail-side">
+            <section class="glass-card">
+              <div class="detail-title-row">
+                <h2 class="detail-title">${iconFor(pet.tipo)} ${pet.nombre}</h2>
+                <span class="status-box ${statusClass(pet.estado)}">${pet.estado}</span>
+              </div>
+
+              <p class="detail-desc">${pet.descripcion}</p>
+
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <b>Distrito</b>
+                  <span>${pet.distrito}</span>
+                </div>
+                <div class="detail-item">
+                  <b>Zona</b>
+                  <span>${pet.zona}</span>
+                </div>
+                <div class="detail-item">
+                  <b>Fecha del reporte</b>
+                  <span>${formatDate(pet.fecha)}</span>
+                </div>
+                <div class="detail-item">
+                  <b>Comentarios recibidos</b>
+                  <span>${(pet.comments || []).length}</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="glass-card contact-box">
+              <div class="phone-large">
+                <div>
+                  📞 ${pet.telefono}
+                  <small>Contacto directo por WhatsApp</small>
+                </div>
+              </div>
+
+              <div class="detail-actions">
+                <a class="btn btn-soft" target="_blank" href="${whatsappMessage(pet, "Hola, la vi por esta zona:")}">La he visto</a>
+                <a class="btn btn-secondary" target="_blank" href="${whatsappMessage(pet, "Hola, tengo información importante sobre")}">Contactar</a>
+              </div>
+
+              <div class="callout">
+                <b>Ayuda a ubicarla</b>
+                <p>Si la viste, deja un comentario indicando el lugar, la fecha y cualquier dato útil.</p>
+              </div>
+            </section>
+
+            <section class="glass-card comments-wrap">
+              <div class="comments-head">
+                <h4>Comentarios y avistamientos</h4>
+                <span style="color:#7e7268;font-weight:800">${(pet.comments || []).length} comentario${(pet.comments || []).length === 1 ? "" : "s"}</span>
+              </div>
+
+              <form id="commentForm" class="comment-form">
+                <label>
+                  <span>Tu nombre</span>
+                  <input class="field" name="autor" required placeholder="Ej: Jorge" />
+                </label>
+                <label>
+                  <span>Fecha en que lo viste</span>
+                  <input class="field" name="fecha" type="date" required />
+                </label>
+                <label class="full">
+                  <span>Lugar donde lo viste</span>
+                  <input class="field" name="lugar" required placeholder="Ej: Av. Larco, frente a la farmacia..." />
+                </label>
+                <label class="full">
+                  <span>Comentario</span>
+                  <textarea name="texto" required placeholder="Ej: Lo vi cerca de un parque a las 6 pm y parecía caminar hacia..."></textarea>
+                </label>
+                <div class="full" style="display:flex;justify-content:flex-end">
+                  <button class="btn btn-primary" type="submit">Publicar comentario</button>
+                </div>
+              </form>
+
+              <div class="comment-list" id="commentList">
+                ${comments || `<div class="no-comments">Todavía no hay comentarios. Sé la primera persona en indicar dónde la viste.</div>`}
+              </div>
+            </section>
+          </div>
+        </div>
+      `;
+
+      const commentForm = document.getElementById("commentForm");
+      commentForm.fecha.value = new Date().toISOString().slice(0,10);
+      commentForm.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        const fd = new FormData(commentForm);
+        const entry = {
+          id: crypto.randomUUID(),
+          autor: fd.get("autor").trim(),
+          fecha: fd.get("fecha"),
+          lugar: fd.get("lugar").trim(),
+          texto: fd.get("texto").trim(),
+          creado: new Date().toLocaleString("es-PE"),
+        };
+        const idx = pets.findIndex(x => x.id === currentPetId);
+        if(idx > -1){
+          pets[idx].comments = pets[idx].comments || [];
+          pets[idx].comments.unshift(entry);
+          save();
+          render();
+          renderDetail();
+          showToast("Comentario publicado correctamente ✅");
+        }
+      });
+    }
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"),2600);
+    }
+
+    function readImage(file){
+      return new Promise(resolve => {
+        if(!file) return resolve("");
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => resolve("");
+        reader.readAsDataURL(file);
+      });
+    }
+
+    form.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const data = new FormData(form);
+      const pet = {
+        id: crypto.randomUUID(),
+        nombre: data.get("nombre").trim(),
+        tipo: data.get("tipo"),
+        sexo: data.get("sexo"),
+        estado: data.get("estado"),
+        edad: data.get("edad").trim(),
+        raza: data.get("raza").trim(),
+        distrito: data.get("distrito"),
+        zona: data.get("zona").trim(),
+        fecha: data.get("fecha"),
+        telefono: data.get("telefono").trim(),
+        descripcion: data.get("descripcion").trim(),
+        foto: await readImage(data.get("foto")),
+        comments: [],
+      };
+      pets.unshift(pet);
+      save();
+      form.reset();
+      form.fecha.value = new Date().toISOString().slice(0,10);
+      closeRegister();
+      render();
+      showToast("Reporte guardado correctamente ✅");
+    });
+
+    document.getElementById("resetReports").addEventListener("click", ()=>{
+      if(confirm("¿Deseas borrar todos los reportes registrados en este navegador?")){
+        pets = [];
+        save();
+        render();
+        closeRegister();
+        showToast("Reportes borrados. La página quedó limpia ✅");
+      }
+    });
+
+    form.fecha.value = new Date().toISOString().slice(0,10);
+    render();
+  </script>
+</body>
+</html>
