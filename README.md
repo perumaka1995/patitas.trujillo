@@ -1,14 +1,13 @@
-# Patitas Trujillo - editar estado por WhatsApp
+# Patitas Trujillo - cambiar estado visible
 
-Nueva función:
-- Dentro de la ficha de cada mascota se puede cambiar el estado.
-- El usuario debe ingresar el WhatsApp con el que registró el reporte.
-- Puede cambiar a: Perdida, Vista, Encontrada o En adopción.
-- Puede agregar una nota opcional.
+Corrección:
+- Ahora la opción para cambiar estado aparece antes de Comentarios y avistamientos.
+- El dueño debe ingresar el WhatsApp registrado.
+- Puede marcar como Encontrada, Vista, Perdida o En adopción.
+- Puede dejar una nota opcional.
 - No borra el reporte ni los comentarios.
 
-IMPORTANTE:
-Para que funcione, Firestore debe permitir update en mascotas:
+REGLAS FIREBASE NECESARIAS:
 
 rules_version = '2';
 
@@ -37,4 +36,4 @@ service cloud.firestore {
 }
 
 Sube todos los archivos a GitHub y abre:
-https://patitastrujillo.vercel.app/?v=14
+https://patitastrujillo.vercel.app/?v=15

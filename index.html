@@ -2738,65 +2738,67 @@
     }
 
   
-    /* ACTUALIZAR ESTADO POR QUIEN REGISTRÓ */
-    .status-update-box{
-      background:#f8fafc;
-      border:1px dashed #cdd9e8;
+    /* CAMBIAR ESTADO DEL REPORTE */
+    .owner-update-box{
+      margin-top:14px;
+      background:#fff7ed;
+      border:1px dashed #fdba74;
       border-radius:18px;
-      padding:14px;
+      padding:16px;
       display:grid;
       gap:10px;
     }
 
-    .status-update-box b{
-      color:#172033;
-      font-size:14px;
+    .owner-update-box b{
+      color:#9a3412;
+      font-size:15px;
     }
 
-    .status-update-box small{
-      color:#64748b;
+    .owner-update-box small{
+      color:#7c2d12;
       font-weight:700;
       line-height:1.45;
     }
 
-    .status-update-grid{
+    .owner-update-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:8px;
     }
 
-    .status-update-grid .full{
+    .owner-update-grid .full{
       grid-column:1 / -1;
     }
 
-    .status-update-box input,
-    .status-update-box select,
-    .status-update-box textarea{
+    .owner-update-box input,
+    .owner-update-box select,
+    .owner-update-box textarea{
       width:100%;
-      border:1px solid #d8e2ef;
+      border:1px solid #fed7aa;
       background:#fff;
       border-radius:13px;
       padding:10px;
       font:inherit;
       font-size:13px;
+      outline:none;
     }
 
-    .status-update-box textarea{
+    .owner-update-box textarea{
       min-height:72px;
       resize:vertical;
     }
 
     @media(max-width:720px){
-      .status-update-box{
+      .owner-update-box{
         padding:12px;
         border-radius:15px;
       }
 
-      .status-update-grid{
+      .owner-update-grid{
         grid-template-columns:1fr;
       }
 
-      .status-update-grid .full{
+      .owner-update-grid .full{
         grid-column:auto;
       }
     }
@@ -3340,13 +3342,13 @@
     }
 
 
-    function onlyDigits(value){
+    function cleanPhoneForOwner(value){
       return String(value || "").replace(/\D/g, "");
     }
 
-    function phoneMatchesRegistered(inputPhone, registeredPhone){
-      const input = onlyDigits(inputPhone);
-      const registered = onlyDigits(registeredPhone);
+    function ownerPhoneMatches(inputPhone, registeredPhone){
+      const input = cleanPhoneForOwner(inputPhone);
+      const registered = cleanPhoneForOwner(registeredPhone);
 
       if(!input || !registered) return false;
 
@@ -3356,12 +3358,12 @@
         || input.slice(-9) === registered.slice(-9);
     }
 
-    async function updatePetStatus(){
+    async function ownerUpdateStatus(){
       const pet = pets.find(p => p.id === currentPetId);
-      const phoneInput = document.getElementById("statusPhoneInput");
-      const statusSelect = document.getElementById("statusSelect");
-      const noteInput = document.getElementById("statusNoteInput");
-      const button = document.getElementById("updateStatusBtn");
+      const phoneInput = document.getElementById("ownerPhoneInput");
+      const statusSelect = document.getElementById("ownerStatusSelect");
+      const noteInput = document.getElementById("ownerStatusNote");
+      const button = document.getElementById("ownerUpdateStatusBtn");
 
       if(!pet || !phoneInput || !statusSelect || !button) return;
 
@@ -3374,7 +3376,7 @@
         return;
       }
 
-      if(!phoneMatchesRegistered(inputPhone, pet.telefono)){
+      if(!ownerPhoneMatches(inputPhone, pet.telefono)){
         showToast("Ese WhatsApp no coincide con el número registrado.");
         return;
       }
@@ -3737,14 +3739,14 @@
       }
 
 
-      const statusSelect = document.getElementById("statusSelect");
-      if(statusSelect){
-        statusSelect.value = pet.estado || "Perdida";
+      const ownerStatusSelect = document.getElementById("ownerStatusSelect");
+      if(ownerStatusSelect){
+        ownerStatusSelect.value = pet.estado || "Perdida";
       }
 
-      const updateStatusBtn = document.getElementById("updateStatusBtn");
-      if(updateStatusBtn){
-        updateStatusBtn.addEventListener("click", updatePetStatus);
+      const ownerUpdateStatusBtn = document.getElementById("ownerUpdateStatusBtn");
+      if(ownerUpdateStatusBtn){
+        ownerUpdateStatusBtn.addEventListener("click", ownerUpdateStatus);
       }
 
       const commentForm = document.getElementById("commentForm");
