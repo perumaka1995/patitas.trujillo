@@ -1,10 +1,25 @@
-# patitas.trujillo - foto completa con click
+# patitas.trujillo - versión lista para AdSense
 
-Cambios:
-- La tarjeta muestra mejor los flyers verticales.
-- En la ficha, al hacer click en la foto, se abre un visor de foto completa.
-- La foto se muestra sin recorte con fondo oscuro.
-- Se actualizó el caché del service worker.
+Incluye:
+- Política de privacidad.
+- Términos y condiciones.
+- Contacto.
+- Sobre nosotros.
+- Secciones informativas útiles.
+- Consejos de seguridad.
+- Preguntas frecuentes.
+- Moderación y contenido permitido.
+- Código de AdSense.
+- Firebase + Cloudinary.
+- PWA para app.
 
-Después de subir a GitHub, abre:
-https://patitastrujillo.vercel.app/?v=7
+IMPORTANTE:
+Antes de solicitar revisión final en AdSense, cambia el correo:
+brian166666@gmail.com
+por un correo real que puedas atender.
+
+Sube todos los archivos a GitHub y abre:
+https://patitastrujillo.vercel.app/?v=8
+
+
+Correo de contacto actualizado: brian166666@gmail.com

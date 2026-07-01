@@ -2089,6 +2089,188 @@
       }
     }
 
+  
+    /* SECCIONES PARA ADSENSE: contenido informativo, contacto y legal */
+    .adsense-ready{
+      margin-top:28px;
+      display:grid;
+      gap:18px;
+    }
+
+    .legal-hero{
+      background:#ffffff;
+      border:1px solid #dce6f2;
+      border-radius:28px;
+      padding:28px;
+      box-shadow:0 8px 22px rgba(15,23,42,.07);
+    }
+
+    .legal-hero h2{
+      margin:0 0 10px;
+      font-size:32px;
+      color:#111827;
+      letter-spacing:-.8px;
+    }
+
+    .legal-hero p{
+      margin:0;
+      color:#475569;
+      line-height:1.7;
+      font-weight:600;
+    }
+
+    .legal-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:18px;
+    }
+
+    .legal-card{
+      background:#ffffff;
+      border:1px solid #dce6f2;
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 8px 22px rgba(15,23,42,.06);
+    }
+
+    .legal-card h3{
+      margin:0 0 12px;
+      color:#111827;
+      font-size:24px;
+      letter-spacing:-.5px;
+    }
+
+    .legal-card p{
+      margin:0 0 12px;
+      color:#475569;
+      line-height:1.65;
+      font-weight:600;
+    }
+
+    .legal-card ul,
+    .legal-card ol{
+      margin:10px 0 0;
+      padding-left:20px;
+      color:#475569;
+      line-height:1.65;
+      font-weight:600;
+    }
+
+    .legal-card li{
+      margin-bottom:7px;
+    }
+
+    .legal-note{
+      background:#f8fafc;
+      border:1px dashed #cdd9e8;
+      border-radius:18px;
+      padding:16px;
+      color:#475569;
+      line-height:1.6;
+      font-weight:700;
+    }
+
+    .legal-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .legal-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#e8f0ff;
+      color:#1d4ed8;
+      font-weight:900;
+      border:1px solid #cdd9e8;
+    }
+
+    .site-footer{
+      margin-top:28px;
+      background:#172033;
+      color:#e2e8f0;
+      border-radius:28px 28px 0 0;
+      padding:28px;
+    }
+
+    .site-footer h3{
+      margin:0 0 8px;
+      font-size:24px;
+      color:#ffffff;
+    }
+
+    .site-footer p{
+      margin:0;
+      color:#cbd5e1;
+      line-height:1.6;
+      font-weight:600;
+    }
+
+    .footer-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .footer-links a{
+      color:#ffffff;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      padding:9px 12px;
+      border-radius:999px;
+      font-weight:800;
+    }
+
+    @media(max-width:720px){
+      .adsense-ready{
+        margin-top:18px;
+        gap:12px;
+      }
+
+      .legal-hero,
+      .legal-card,
+      .site-footer{
+        border-radius:18px;
+        padding:16px;
+      }
+
+      .legal-hero h2{
+        font-size:24px;
+      }
+
+      .legal-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+      }
+
+      .legal-card h3{
+        font-size:20px;
+      }
+
+      .legal-card p,
+      .legal-card ul,
+      .legal-card ol,
+      .legal-note{
+        font-size:13px;
+      }
+
+      .legal-links,
+      .footer-links{
+        gap:7px;
+      }
+
+      .legal-link,
+      .footer-links a{
+        font-size:12px;
+        padding:8px 10px;
+      }
+    }
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />
@@ -2103,7 +2285,7 @@
       <div class="nav">
         <a href="#" class="brand">
           <span class="brand-icon">🐾</span>
-          <span>PATITAS TRUJILLO
+          <span>patitas.trujillo
             <small>Red comunitaria para mascotas perdidas y encontradas</small>
           </span>
         </a>
@@ -2289,11 +2471,156 @@
         </p>
       </div>
     </section>
+  
+    <section class="adsense-ready" id="contenido-util">
+      <article class="legal-hero" id="sobre-nosotros">
+        <span class="eyebrow">Sobre nosotros</span>
+        <h2>patitas.trujillo: red comunitaria para mascotas perdidas en Trujillo</h2>
+        <p>
+          patitas.trujillo es una página comunitaria creada para ayudar a difundir reportes de mascotas
+          perdidas, vistas, encontradas o en adopción dentro de Trujillo y zonas cercanas de La Libertad.
+          La plataforma permite publicar una ficha con foto, descripción, zona, fecha y contacto directo
+          por WhatsApp, además de recibir comentarios de personas que hayan visto a la mascota.
+        </p>
+        <div class="legal-links">
+          <a class="legal-link" href="#como-reportar">Cómo reportar</a>
+          <a class="legal-link" href="#seguridad">Seguridad</a>
+          <a class="legal-link" href="#contacto">Contacto</a>
+          <a class="legal-link" href="#privacidad">Privacidad</a>
+          <a class="legal-link" href="#terminos">Términos</a>
+        </div>
+      </article>
+
+      <div class="legal-grid">
+        <article class="legal-card" id="como-reportar">
+          <h3>Cómo reportar una mascota perdida</h3>
+          <ol>
+            <li>Presiona el botón <b>Registrar mascota</b>.</li>
+            <li>Agrega una foto clara donde se vea bien la mascota o el afiche de búsqueda.</li>
+            <li>Indica nombre, especie, color, sexo, edad aproximada y señales particulares.</li>
+            <li>Escribe la última zona donde fue vista, distrito y fecha del reporte.</li>
+            <li>Coloca un número de WhatsApp para que puedan contactarte rápidamente.</li>
+            <li>Comparte el reporte en los grupos de ayuda enlazados en la página.</li>
+          </ol>
+        </article>
+
+        <article class="legal-card" id="si-la-encontraste">
+          <h3>Qué hacer si encontraste una mascota</h3>
+          <ul>
+            <li>Verifica si tiene collar, placa, ropa, cicatrices o alguna señal particular.</li>
+            <li>Déjala en un lugar seguro mientras contactas al posible dueño.</li>
+            <li>Comenta en la ficha indicando zona, fecha y detalles del avistamiento.</li>
+            <li>Evita entregar la mascota sin pedir pruebas básicas de pertenencia.</li>
+            <li>Si está herida, busca apoyo de un rescatista o veterinaria cercana.</li>
+          </ul>
+        </article>
+
+        <article class="legal-card" id="seguridad">
+          <h3>Consejos de seguridad para publicar</h3>
+          <ul>
+            <li>No publiques dirección exacta de vivienda, DNI ni datos personales sensibles.</li>
+            <li>Usa un número de contacto que puedas atender mientras dure la búsqueda.</li>
+            <li>Si alguien pide dinero por entregar una mascota, verifica bien la información.</li>
+            <li>Coordina entregas en lugares seguros y, de preferencia, acompañado.</li>
+            <li>Reporta comentarios falsos, ofensivos o sospechosos al administrador.</li>
+          </ul>
+        </article>
+
+        <article class="legal-card" id="preguntas-frecuentes">
+          <h3>Preguntas frecuentes</h3>
+          <p><b>¿La página rescata animales directamente?</b><br>
+            No. La página ayuda a difundir reportes y conectar personas, pero no reemplaza a una organización de rescate.</p>
+          <p><b>¿Tiene costo publicar?</b><br>
+            No. El registro está pensado como ayuda comunitaria.</p>
+          <p><b>¿Puedo pedir que borren una publicación?</b><br>
+            Sí. Puedes solicitar la eliminación o corrección escribiendo al contacto del administrador.</p>
+        </article>
+      </div>
+
+      <article class="legal-card" id="contacto">
+        <h3>Contacto</h3>
+        <p>
+          Para solicitar corrección o eliminación de una publicación, reportar contenido falso,
+          pedir apoyo con el uso de la página o enviar sugerencias, escribe al administrador.
+        </p>
+        <div class="legal-note">
+          Correo de contacto: <b>brian166666@gmail.com</b><br>
+          Tiempo estimado de respuesta: 24 a 72 horas.<br>
+          Nota: cambia este correo por el correo real del administrador antes de solicitar revisión final en AdSense.
+        </div>
+      </article>
+
+      <article class="legal-card" id="privacidad">
+        <h3>Política de privacidad</h3>
+        <p>
+          En patitas.trujillo se recopila únicamente la información necesaria para publicar y consultar
+          reportes de mascotas perdidas, vistas, encontradas o en adopción.
+        </p>
+        <ul>
+          <li><b>Datos publicados:</b> nombre de la mascota, especie, color o raza, sexo, edad aproximada, zona, distrito, fecha, descripción, foto y teléfono de contacto.</li>
+          <li><b>Comentarios:</b> los visitantes pueden dejar nombre, lugar, fecha y comentario de avistamiento.</li>
+          <li><b>Fotos:</b> las imágenes se almacenan en Cloudinary para poder mostrarse dentro de la ficha pública.</li>
+          <li><b>Datos y comentarios:</b> se almacenan en Firebase Firestore para que los reportes puedan verse desde distintos dispositivos.</li>
+          <li><b>Estadísticas:</b> la página puede contar visitas aproximadas para conocer el uso general del sitio.</li>
+          <li><b>Anuncios y cookies:</b> si Google AdSense aprueba el sitio, Google y sus socios pueden usar cookies o identificadores para mostrar anuncios y medir su rendimiento.</li>
+        </ul>
+        <p>
+          No publiques datos sensibles como DNI, dirección exacta de vivienda, información bancaria ni documentos personales.
+          Si deseas eliminar o corregir un reporte, usa el correo de contacto indicado en esta página.
+        </p>
+      </article>
+
+      <article class="legal-card" id="terminos">
+        <h3>Términos y condiciones de uso</h3>
+        <ul>
+          <li>El uso de la página es voluntario y tiene finalidad comunitaria.</li>
+          <li>Cada usuario es responsable de la veracidad de la información que publica.</li>
+          <li>No está permitido publicar contenido falso, ofensivo, discriminatorio, ilegal o que afecte a terceros.</li>
+          <li>No se debe publicar información personal de otra persona sin autorización.</li>
+          <li>La página no garantiza la recuperación de una mascota, solo facilita la difusión y el contacto.</li>
+          <li>El administrador puede retirar publicaciones o comentarios que incumplan estas reglas.</li>
+          <li>La plataforma puede cambiar, suspenderse o actualizarse para mejorar seguridad, funcionamiento o cumplimiento de políticas.</li>
+        </ul>
+      </article>
+
+      <article class="legal-card" id="moderacion">
+        <h3>Moderación y contenido permitido</h3>
+        <p>
+          Esta página busca mantener un entorno útil y seguro para la comunidad. No se permite publicar
+          imágenes violentas, lenguaje ofensivo, estafas, spam, datos privados de terceros o reportes inventados.
+          Las publicaciones deben estar relacionadas con mascotas perdidas, encontradas, vistas o en adopción.
+        </p>
+      </article>
+
+      <article class="legal-card" id="zonas">
+        <h3>Zonas de referencia en Trujillo</h3>
+        <p>
+          Los reportes pueden incluir distritos o zonas como Trujillo, La Esperanza, El Porvenir,
+          Florencia de Mora, Víctor Larco, Huanchaco, Moche, Salaverry, Laredo, Poroto o Simbal.
+          Mientras más clara sea la zona de referencia, más fácil será que otros vecinos ayuden.
+        </p>
+      </article>
+    </section>
+
   </main>
 
-  <footer>
-    patitas.trujillo · versión tierna, limpia y lista para ayudar.
+
+  <footer class="site-footer">
+    <h3>patitas.trujillo</h3>
+    <p>
+      Plataforma comunitaria para registrar y difundir mascotas perdidas, vistas, encontradas o en adopción en Trujillo.
+      La información publicada es responsabilidad de cada usuario.
+    </p>
+    <div class="footer-links">
+      <a href="#sobre-nosotros">Sobre nosotros</a>
+      <a href="#como-reportar">Cómo reportar</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#privacidad">Política de privacidad</a>
+      <a href="#terminos">Términos y condiciones</a>
+      <a href="#seguridad">Seguridad</a>
+    </div>
   </footer>
+
 
   <div class="modal" id="registerModal">
     <div class="modal-card">
