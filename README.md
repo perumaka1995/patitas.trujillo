@@ -1,9 +1,10 @@
-# Patitas Trujillo - cambiar estado visible
+# Patitas Trujillo - botón visible para cambiar estado
 
 Corrección:
-- Ahora la opción para cambiar estado aparece antes de Comentarios y avistamientos.
-- El dueño debe ingresar el WhatsApp registrado.
-- Puede marcar como Encontrada, Vista, Perdida o En adopción.
+- Ahora aparece un botón visible debajo de Contactar:
+  "✅ Cambiar estado / Ya fue encontrada"
+- Al hacer click se abre una ventana para ingresar el WhatsApp registrado.
+- Puede cambiar a Perdida, Vista, Encontrada o En adopción.
 - Puede dejar una nota opcional.
 - No borra el reporte ni los comentarios.
 
@@ -36,4 +37,4 @@ service cloud.firestore {
 }
 
 Sube todos los archivos a GitHub y abre:
-https://patitastrujillo.vercel.app/?v=15
+https://patitastrujillo.vercel.app/?v=16

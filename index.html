@@ -2803,6 +2803,128 @@
       }
     }
 
+  
+    /* ACTUALIZAR ESTADO VISIBLE V16 */
+    .owner-visible-btn{
+      width:100%;
+      margin-top:10px;
+      background:#f59e0b !important;
+      color:#111827 !important;
+      border:0 !important;
+      box-shadow:0 10px 20px rgba(245,158,11,.20) !important;
+    }
+
+    .owner-status-modal{
+      position:fixed;
+      inset:0;
+      z-index:230;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(15,23,42,.58);
+      backdrop-filter:blur(10px);
+      padding:18px;
+    }
+
+    .owner-status-modal.show{
+      display:flex;
+    }
+
+    .owner-status-card{
+      width:min(560px,100%);
+      background:#ffffff;
+      border:1px solid #dce6f2;
+      border-radius:24px;
+      box-shadow:0 24px 70px rgba(15,23,42,.28);
+      overflow:hidden;
+    }
+
+    .owner-status-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:18px 20px;
+      border-bottom:1px solid #dce6f2;
+      background:#fff7ed;
+    }
+
+    .owner-status-head h3{
+      margin:0;
+      color:#9a3412;
+      font-size:23px;
+      letter-spacing:-.5px;
+    }
+
+    .owner-status-close{
+      border:1px solid #fed7aa;
+      background:#fff;
+      width:40px;
+      height:40px;
+      border-radius:13px;
+      font-size:22px;
+      cursor:pointer;
+      color:#9a3412;
+      font-weight:900;
+    }
+
+    .owner-status-body{
+      padding:18px 20px 20px;
+      display:grid;
+      gap:12px;
+    }
+
+    .owner-status-body p{
+      margin:0;
+      color:#475569;
+      line-height:1.55;
+      font-weight:700;
+    }
+
+    .owner-status-body input,
+    .owner-status-body select,
+    .owner-status-body textarea{
+      width:100%;
+      border:1px solid #d8e2ef;
+      background:#fff;
+      border-radius:13px;
+      padding:12px;
+      font:inherit;
+      font-size:14px;
+      outline:none;
+    }
+
+    .owner-status-body textarea{
+      min-height:88px;
+      resize:vertical;
+    }
+
+    .owner-status-help{
+      background:#f8fafc;
+      border:1px dashed #cdd9e8;
+      border-radius:14px;
+      padding:12px;
+      color:#64748b;
+      font-size:13px;
+      line-height:1.45;
+      font-weight:700;
+    }
+
+    @media(max-width:720px){
+      .owner-status-modal{
+        padding:0;
+        align-items:flex-end;
+      }
+
+      .owner-status-card{
+        border-radius:20px 20px 0 0;
+      }
+
+      .owner-status-head h3{
+        font-size:20px;
+      }
+    }
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />
@@ -3178,6 +3300,36 @@
 
 
 
+
+  <div class="owner-status-modal" id="ownerStatusModal">
+    <div class="owner-status-card">
+      <div class="owner-status-head">
+        <h3>Actualizar estado del reporte</h3>
+        <button class="owner-status-close" id="closeOwnerStatusBtnV16" type="button">×</button>
+      </div>
+      <div class="owner-status-body">
+        <p>Ingresa el WhatsApp con el que se registró este reporte para confirmar que eres quien lo publicó.</p>
+
+        <input id="ownerPhoneInputV16" type="tel" placeholder="WhatsApp registrado">
+
+        <select id="ownerStatusSelectV16">
+          <option value="Perdida">Perdida</option>
+          <option value="Vista">Vista</option>
+          <option value="Encontrada">Encontrada</option>
+          <option value="En adopción">En adopción</option>
+        </select>
+
+        <textarea id="ownerStatusNoteV16" placeholder="Mensaje opcional. Ej: Ya fue encontrada y volvió con su familia."></textarea>
+
+        <div class="owner-status-help">
+          Esto solo cambia el estado del reporte. No borra la publicación ni los comentarios.
+        </div>
+
+        <button class="btn btn-secondary" type="button" id="ownerSaveStatusBtnV16">Guardar cambio</button>
+      </div>
+    </div>
+  </div>
+
   <div class="info-modal" id="infoModal">
     <div class="info-modal-card">
       <div class="info-modal-head">
@@ -3407,6 +3559,98 @@
         if(button){
           button.disabled = false;
           button.textContent = "Actualizar estado";
+        }
+      }
+    }
+
+
+    function normalizeOwnerPhoneV16(value){
+      return String(value || "").replace(/\D/g, "");
+    }
+
+    function ownerPhoneMatchesV16(inputPhone, registeredPhone){
+      const input = normalizeOwnerPhoneV16(inputPhone);
+      const registered = normalizeOwnerPhoneV16(registeredPhone);
+
+      if(!input || !registered) return false;
+
+      return input === registered
+        || input.endsWith(registered)
+        || registered.endsWith(input)
+        || input.slice(-9) === registered.slice(-9);
+    }
+
+    function openOwnerStatusModal(){
+      const pet = pets.find(p => p.id === currentPetId);
+      const modal = document.getElementById("ownerStatusModal");
+      const select = document.getElementById("ownerStatusSelectV16");
+      const note = document.getElementById("ownerStatusNoteV16");
+      const phone = document.getElementById("ownerPhoneInputV16");
+
+      if(!pet || !modal) return;
+
+      if(select) select.value = pet.estado || "Perdida";
+      if(note) note.value = "";
+      if(phone) phone.value = "";
+
+      modal.classList.add("show");
+    }
+
+    function closeOwnerStatusModal(){
+      const modal = document.getElementById("ownerStatusModal");
+      if(modal) modal.classList.remove("show");
+    }
+
+    async function updateOwnerStatusV16(){
+      const pet = pets.find(p => p.id === currentPetId);
+      const phoneInput = document.getElementById("ownerPhoneInputV16");
+      const statusSelect = document.getElementById("ownerStatusSelectV16");
+      const noteInput = document.getElementById("ownerStatusNoteV16");
+      const button = document.getElementById("ownerSaveStatusBtnV16");
+
+      if(!pet || !phoneInput || !statusSelect || !button) return;
+
+      const inputPhone = phoneInput.value.trim();
+      const newStatus = statusSelect.value;
+      const note = noteInput ? noteInput.value.trim() : "";
+
+      if(!inputPhone){
+        showToast("Ingresa el WhatsApp con el que registraste el reporte.");
+        return;
+      }
+
+      if(!ownerPhoneMatchesV16(inputPhone, pet.telefono)){
+        showToast("Ese WhatsApp no coincide con el número registrado.");
+        return;
+      }
+
+      try{
+        button.disabled = true;
+        button.textContent = "Guardando...";
+
+        const updates = {
+          estado: newStatus,
+          updatedAt: serverTimestamp(),
+          actualizadoEn: new Date().toLocaleString("es-PE")
+        };
+
+        if(note){
+          updates.descripcion = `${pet.descripcion || ""}\n\nActualización: ${note}`;
+        }
+
+        await updateDoc(doc(db, "mascotas", currentPetId), updates);
+
+        showToast("Estado actualizado correctamente ✅");
+        closeOwnerStatusModal();
+        await loadPets();
+        renderDetail();
+      }catch(error){
+        console.error(error);
+        showToast("No se pudo actualizar. Revisa las reglas de Firestore.");
+      }finally{
+        if(button){
+          button.disabled = false;
+          button.textContent = "Guardar cambio";
         }
       }
     }
@@ -3749,6 +3993,12 @@
         ownerUpdateStatusBtn.addEventListener("click", ownerUpdateStatus);
       }
 
+
+      const openOwnerStatusBtnV16 = document.getElementById("openOwnerStatusBtnV16");
+      if(openOwnerStatusBtnV16){
+        openOwnerStatusBtnV16.addEventListener("click", openOwnerStatusModal);
+      }
+
       const commentForm = document.getElementById("commentForm");
       commentForm.fecha.value = new Date().toISOString().slice(0,10);
 
@@ -3835,7 +4085,14 @@ form.fecha.value = new Date().toISOString().slice(0,10);
 
     document.getElementById("resetForm").addEventListener("click", ()=>{
       form.reset();
-      form.fecha.value = new Date().toISOString().slice(0,10);
+  
+    document.getElementById("closeOwnerStatusBtnV16")?.addEventListener("click", closeOwnerStatusModal);
+    document.getElementById("ownerSaveStatusBtnV16")?.addEventListener("click", updateOwnerStatusV16);
+    document.getElementById("ownerStatusModal")?.addEventListener("click", (event)=>{
+      if(event.target.id === "ownerStatusModal") closeOwnerStatusModal();
+    });
+
+    form.fecha.value = new Date().toISOString().slice(0,10);
       showToast("Formulario vacío ✅");
     });
 

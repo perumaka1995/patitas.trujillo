@@ -1,4 +1,4 @@
-const CACHE_NAME = "patitas-trujillo-v15-cambiar-estado-fix";
+const CACHE_NAME = "patitas-trujillo-v16-estado-visible";
 const APP_SHELL = [
   "/",
   "/index.html",
