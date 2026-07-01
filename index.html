@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Patitas trujillo Trujillo | Mascotas perdidas y encontradas</title>
+  <title>patitas.trujillo Trujillo | Mascotas perdidas y encontradas</title>
   <meta name="description" content="Plataforma comunitaria para reportar y encontrar mascotas en Trujillo." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1053,6 +1053,12 @@
       main{margin-top:-24px}
     }
   </style>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="patitas.trujillo" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
 </head>
 <body>
   <header class="hero">
@@ -1060,7 +1066,7 @@
       <div class="nav">
         <a href="#" class="brand">
           <span class="brand-icon">🐾</span>
-          <span>Patitas Trujillo
+          <span>patitas.trujillo
             <small>Red comunitaria para mascotas perdidas y encontradas</small>
           </span>
         </a>
@@ -1817,5 +1823,14 @@
     loadPets();
   </script>
 
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch((error) => {
+          console.log("Service Worker no registrado:", error);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
