@@ -1,21 +1,16 @@
-# patitas.trujillo - versión app PWA
+# patitas.trujillo - móvil V2 compacto
 
-Esta versión ya está lista para instalarse como app desde el navegador.
+Esta versión reduce bastante la portada en celular:
+- Logo y cabecera más pequeños.
+- Botones en dos columnas.
+- Etiquetas en scroll horizontal.
+- Título principal más compacto.
+- Estadísticas pequeñas en una sola fila.
+- Menos espacios verticales.
+- Cache del service worker actualizado.
 
-Archivos:
-- index.html
-- manifest.json
-- sw.js
-- icons/icon-192.png
-- icons/icon-512.png
-
-Cómo subir:
-1. En GitHub, sube/reemplaza todos estos archivos en la raíz del repositorio.
-2. Mantén los nombres exactos.
-3. Vercel actualizará la web automáticamente.
-4. Abre tu web desde Chrome en Android.
-5. Presiona los tres puntos y elige "Agregar a pantalla principal" o "Instalar app".
-
-Para crear APK:
-- Usa PWABuilder con el enlace de Vercel.
-- Genera paquete Android desde esa plataforma.
+Después de subir a GitHub:
+1. Espera que Vercel redeploye.
+2. En el celular abre la web con ?v=3 al final para evitar caché:
+   https://patitastrujillo.vercel.app/?v=3
+3. Si está instalada como app, desinstálala y vuelve a instalarla.
