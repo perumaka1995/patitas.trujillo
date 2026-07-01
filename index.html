@@ -2737,6 +2737,70 @@
       }
     }
 
+  
+    /* ACTUALIZAR ESTADO POR QUIEN REGISTRÓ */
+    .status-update-box{
+      background:#f8fafc;
+      border:1px dashed #cdd9e8;
+      border-radius:18px;
+      padding:14px;
+      display:grid;
+      gap:10px;
+    }
+
+    .status-update-box b{
+      color:#172033;
+      font-size:14px;
+    }
+
+    .status-update-box small{
+      color:#64748b;
+      font-weight:700;
+      line-height:1.45;
+    }
+
+    .status-update-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .status-update-grid .full{
+      grid-column:1 / -1;
+    }
+
+    .status-update-box input,
+    .status-update-box select,
+    .status-update-box textarea{
+      width:100%;
+      border:1px solid #d8e2ef;
+      background:#fff;
+      border-radius:13px;
+      padding:10px;
+      font:inherit;
+      font-size:13px;
+    }
+
+    .status-update-box textarea{
+      min-height:72px;
+      resize:vertical;
+    }
+
+    @media(max-width:720px){
+      .status-update-box{
+        padding:12px;
+        border-radius:15px;
+      }
+
+      .status-update-grid{
+        grid-template-columns:1fr;
+      }
+
+      .status-update-grid .full{
+        grid-column:auto;
+      }
+    }
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />
@@ -3275,6 +3339,76 @@
       }
     }
 
+
+    function onlyDigits(value){
+      return String(value || "").replace(/\D/g, "");
+    }
+
+    function phoneMatchesRegistered(inputPhone, registeredPhone){
+      const input = onlyDigits(inputPhone);
+      const registered = onlyDigits(registeredPhone);
+
+      if(!input || !registered) return false;
+
+      return input === registered
+        || input.endsWith(registered)
+        || registered.endsWith(input)
+        || input.slice(-9) === registered.slice(-9);
+    }
+
+    async function updatePetStatus(){
+      const pet = pets.find(p => p.id === currentPetId);
+      const phoneInput = document.getElementById("statusPhoneInput");
+      const statusSelect = document.getElementById("statusSelect");
+      const noteInput = document.getElementById("statusNoteInput");
+      const button = document.getElementById("updateStatusBtn");
+
+      if(!pet || !phoneInput || !statusSelect || !button) return;
+
+      const inputPhone = phoneInput.value.trim();
+      const newStatus = statusSelect.value;
+      const note = noteInput ? noteInput.value.trim() : "";
+
+      if(!inputPhone){
+        showToast("Ingresa el WhatsApp con el que registraste el reporte.");
+        return;
+      }
+
+      if(!phoneMatchesRegistered(inputPhone, pet.telefono)){
+        showToast("Ese WhatsApp no coincide con el número registrado.");
+        return;
+      }
+
+      try{
+        button.disabled = true;
+        button.textContent = "Actualizando...";
+
+        const updates = {
+          estado: newStatus,
+          updatedAt: serverTimestamp(),
+          actualizadoEn: new Date().toLocaleString("es-PE")
+        };
+
+        if(note){
+          updates.descripcion = `${pet.descripcion || ""}\n\nActualización: ${note}`;
+        }
+
+        await updateDoc(doc(db, "mascotas", currentPetId), updates);
+
+        showToast("Estado actualizado correctamente ✅");
+        await loadPets();
+        renderDetail();
+      }catch(error){
+        console.error(error);
+        showToast("No se pudo actualizar. Revisa las reglas de Firestore.");
+      }finally{
+        if(button){
+          button.disabled = false;
+          button.textContent = "Actualizar estado";
+        }
+      }
+    }
+
     function openRegister(){ registerModal.classList.add("show"); }
     function closeRegister(){ registerModal.classList.remove("show"); }
     function openDetail(id){
@@ -3600,6 +3734,17 @@
       const replacePhotoBtn = document.getElementById("replacePhotoBtn");
       if(replacePhotoBtn){
         replacePhotoBtn.addEventListener("click", replacePetPhoto);
+      }
+
+
+      const statusSelect = document.getElementById("statusSelect");
+      if(statusSelect){
+        statusSelect.value = pet.estado || "Perdida";
+      }
+
+      const updateStatusBtn = document.getElementById("updateStatusBtn");
+      if(updateStatusBtn){
+        updateStatusBtn.addEventListener("click", updatePetStatus);
       }
 
       const commentForm = document.getElementById("commentForm");
