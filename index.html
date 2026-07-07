@@ -2925,6 +2925,191 @@
       }
     }
 
+
+    /* DESCARGA APK - PATITAS TRUJILLO */
+    .btn-apk{
+      background:linear-gradient(135deg,#16a34a,#0f766e);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:0 10px 24px rgba(22,163,74,.22);
+    }
+
+    .btn-apk:hover{
+      background:linear-gradient(135deg,#15803d,#0b5f59);
+    }
+
+    .apk-hero-card{
+      margin-top:24px;
+      max-width:760px;
+      background:rgba(255,255,255,.94);
+      border:1px solid #dce6f2;
+      border-radius:26px;
+      padding:18px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:16px;
+      align-items:center;
+      box-shadow:0 16px 34px rgba(15,23,42,.10);
+      backdrop-filter:blur(10px);
+    }
+
+    .apk-icon{
+      width:58px;
+      height:58px;
+      border-radius:20px;
+      display:grid;
+      place-items:center;
+      font-size:29px;
+      background:linear-gradient(135deg,#e8f0ff,#ecfdf5);
+      border:1px solid #cdd9e8;
+      box-shadow:0 8px 18px rgba(15,23,42,.08);
+    }
+
+    .apk-kicker{
+      display:inline-flex;
+      align-items:center;
+      width:max-content;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#ecfdf5;
+      color:#047857;
+      border:1px solid #bbf7d0;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.55px;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .apk-copy h2{
+      margin:0 0 6px;
+      color:#111827;
+      font-size:25px;
+      line-height:1.05;
+      letter-spacing:-.7px;
+    }
+
+    .apk-copy p{
+      margin:0;
+      color:#475569;
+      font-size:14.5px;
+      line-height:1.5;
+      font-weight:650;
+      max-width:540px;
+    }
+
+    .apk-mini{
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+    }
+
+    .apk-mini span{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:6px 9px;
+      border-radius:999px;
+      background:#f8fafc;
+      color:#334155;
+      border:1px solid #e2e8f0;
+      font-size:11.5px;
+      font-weight:900;
+    }
+
+    .apk-card-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:14px 18px;
+      border-radius:16px;
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
+      color:#fff;
+      font-weight:900;
+      white-space:nowrap;
+      box-shadow:0 10px 24px rgba(37,99,235,.25);
+      transition:.16s ease;
+    }
+
+    .apk-card-btn:hover{
+      transform:translateY(-1px);
+      background:linear-gradient(135deg,#1d4ed8,#1e40af);
+    }
+
+    @media(max-width:980px){
+      .apk-hero-card{
+        grid-template-columns:auto 1fr;
+      }
+      .apk-card-btn{
+        grid-column:1 / -1;
+        width:100%;
+      }
+    }
+
+    @media(max-width:720px){
+      .hero-actions{
+        grid-template-columns:1fr 1fr !important;
+      }
+
+      .hero-actions .btn-apk{
+        grid-column:1 / -1 !important;
+      }
+
+      .apk-hero-card{
+        margin-top:12px !important;
+        grid-template-columns:1fr !important;
+        gap:10px !important;
+        border-radius:18px !important;
+        padding:14px !important;
+        box-shadow:0 8px 20px rgba(15,23,42,.06) !important;
+      }
+
+      .apk-icon{
+        width:44px !important;
+        height:44px !important;
+        border-radius:15px !important;
+        font-size:23px !important;
+      }
+
+      .apk-kicker{
+        font-size:9.5px !important;
+        padding:5px 8px !important;
+        margin-bottom:6px !important;
+      }
+
+      .apk-copy h2{
+        font-size:20px !important;
+        margin-bottom:5px !important;
+      }
+
+      .apk-copy p{
+        font-size:12.5px !important;
+        line-height:1.4 !important;
+        display:block !important;
+        overflow:visible !important;
+      }
+
+      .apk-mini{
+        gap:5px !important;
+        margin-top:8px !important;
+      }
+
+      .apk-mini span{
+        font-size:10px !important;
+        padding:5px 7px !important;
+      }
+
+      .apk-card-btn{
+        min-height:40px !important;
+        border-radius:13px !important;
+        padding:11px 12px !important;
+        font-size:13px !important;
+      }
+    }
+
+
   </style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#2563eb" />
@@ -2946,6 +3131,7 @@
         <div class="hero-actions">
           <button class="btn btn-primary" id="openRegisterTop">Registrar mascota</button>
           <a class="btn btn-soft" target="_blank" href="#grupos-ayuda">Grupos de ayuda</a>
+          <a class="btn btn-apk" href="https://drive.google.com/uc?export=download&id=1ulVPxtB5XscnT3Rnb942EYnPWWD9SYT-" target="_blank" rel="noopener">📲 Descargar APK</a>
         </div>
       </div>
 
@@ -2953,6 +3139,7 @@
         <span class="mini-badge">📍 Trujillo, La Libertad</span>
         <span class="mini-badge">💬 Contacto directo por WhatsApp</span>
         <span class="mini-badge">📝 Comentarios para reportar avistamientos</span>
+        <span class="mini-badge">🔔 Alertas desde la APK</span>
       </div>
 
       <div class="hero-grid">
@@ -2961,6 +3148,23 @@
           <p>
             Publica reportes, comparte en grupos de ayuda y recibe comentarios de vecinos que indiquen dónde vieron a la mascota.
           </p>
+
+          <div class="apk-hero-card" id="descargar-apk">
+            <div class="apk-icon">🔔</div>
+            <div class="apk-copy">
+              <span class="apk-kicker">APK para Android</span>
+              <h2>Tennos cerca en tu celular</h2>
+              <p>
+                Descarga nuestra APK y recibe notificaciones de mascotas perdidas, encontradas y avistamientos cerca de tu zona.
+              </p>
+              <div class="apk-mini">
+                <span>✅ Reporta más rápido</span>
+                <span>🔔 Avisos importantes</span>
+                <span>📍 Trujillo</span>
+              </div>
+            </div>
+            <a class="apk-card-btn" href="https://drive.google.com/uc?export=download&id=1ulVPxtB5XscnT3Rnb942EYnPWWD9SYT-" target="_blank" rel="noopener">📲 Descargar APK</a>
+          </div>
         </div>
         <div class="stat-wrap">
           <div class="stat"><b id="statRegistradas">0</b><span>Registradas</span></div>
